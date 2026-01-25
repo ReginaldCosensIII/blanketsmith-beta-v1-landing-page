@@ -2,53 +2,58 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import betaUIScreenshot from "@/assets/beta-ui-screenshot.png";
 import { MobileMockup } from "./MobileMockup";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function ToolMockup() {
   const containerRef = useRef(null);
+  const isMobile = useIsMobile();
   
   // Scroll through this tall container drives the animations
   // The sticky inner element stays in place while animations play
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end end"] // Start animation when section enters viewport
+    offset: ["start end", "end end"]
   });
 
-  // Phase 1 (0-0.4): Browser animates in
-  // Phase 2 (0.4-0.5): Hold - browser settled
-  // Phase 3 (0.5-0.9): Mobile animates in
-  // Phase 4 (0.9-1): Hold - both settled, then scroll continues
+  // Phase 1 (0-0.35): Browser animates in from 3D perspective
+  // Phase 2 (0.35-0.5): Hold - browser settled, mobile begins fade
+  // Phase 3 (0.5-0.85): Mobile translates up and overlaps browser
+  // Phase 4 (0.85-1): Hold - both settled at final positions
 
-  // Browser animation: completes in first 40% of scroll
-  const browserRotateX = useTransform(scrollYProgress, [0, 0.4], [45, 0]);
-  const browserRotateY = useTransform(scrollYProgress, [0, 0.4], [-20, 0]);
-  const browserRotateZ = useTransform(scrollYProgress, [0, 0.4], [5, 0]);
-  const browserScale = useTransform(scrollYProgress, [0, 0.4], [0.75, 1]);
+  // Browser animation: completes in first 35% of scroll
+  const browserRotateX = useTransform(scrollYProgress, [0, 0.35], [45, 0]);
+  const browserRotateY = useTransform(scrollYProgress, [0, 0.35], [-20, 0]);
+  const browserRotateZ = useTransform(scrollYProgress, [0, 0.35], [5, 0]);
+  const browserScale = useTransform(scrollYProgress, [0, 0.35], [0.75, 1]);
   const browserOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
-  const browserY = useTransform(scrollYProgress, [0, 0.4], [60, 0]);
+  const browserY = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
   
   // Browser shadow
   const shadowOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  const shadowScale = useTransform(scrollYProgress, [0, 0.4], [0.85, 1]);
-  const shadowY = useTransform(scrollYProgress, [0, 0.4], [40, 0]);
+  const shadowScale = useTransform(scrollYProgress, [0, 0.35], [0.85, 1]);
+  const shadowY = useTransform(scrollYProgress, [0, 0.35], [40, 0]);
   
   // Browser inner parallax
-  const topBarY = useTransform(scrollYProgress, [0, 0.4], [-8, 0]);
-  const screenshotY = useTransform(scrollYProgress, [0, 0.4], [15, 0]);
-  const screenshotScale = useTransform(scrollYProgress, [0, 0.4], [1.02, 1]);
+  const topBarY = useTransform(scrollYProgress, [0, 0.35], [-8, 0]);
+  const screenshotY = useTransform(scrollYProgress, [0, 0.35], [15, 0]);
+  const screenshotScale = useTransform(scrollYProgress, [0, 0.35], [1.02, 1]);
+
+  // Responsive scroll estate height - ensures enough room for animation
+  // Clamped to respect the uniform spacing system
+  const scrollEstateHeight = isMobile ? "120vh" : "160vh";
 
   return (
     <div 
       ref={containerRef}
       className="relative overflow-clip"
       style={{
-        // Responsive min-height: smaller on mobile, larger on desktop
-        minHeight: "clamp(60vh, 80vh, 180vh)",
+        minHeight: scrollEstateHeight,
       }}
     >
       {/* Sticky container - stays in view while scrolling drives animations */}
-      <div className="sticky top-0 min-h-[60vh] sm:min-h-[70vh] lg:min-h-[80vh] flex flex-col items-center justify-center overflow-hidden py-8 lg:py-12">
-        {/* Centered Browser Mockup */}
-        <div className="max-w-5xl mx-auto w-full px-4">
+      <div className="sticky top-0 min-h-[50vh] sm:min-h-[60vh] lg:min-h-[70vh] flex flex-col items-center justify-start pt-8 sm:pt-12 lg:pt-16 overflow-visible">
+        {/* Browser Mockup Container */}
+        <div className="max-w-5xl mx-auto w-full px-4 relative z-0">
           <div 
             className="w-full mx-auto"
             style={{ perspective: "1500px" }}
@@ -81,14 +86,14 @@ export function ToolMockup() {
                   style={{ y: topBarY }}
                   className="bg-secondary/80 border-b border-border px-1 py-0.5 sm:px-3 sm:py-2 md:px-4 md:py-3 flex items-center gap-0.5 sm:gap-2 md:gap-3 relative z-10"
                 >
-                  {/* Traffic Lights - ultra compact on mobile */}
+                  {/* Traffic Lights */}
                   <div className="flex items-center gap-[2px] sm:gap-1.5 md:gap-2">
                     <div className="w-1 h-1 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-red-400/80" />
                     <div className="w-1 h-1 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-400/80" />
                     <div className="w-1 h-1 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-green-400/80" />
                   </div>
                   
-                  {/* URL Bar - smaller on mobile */}
+                  {/* URL Bar */}
                   <div className="flex-1 max-w-md mx-auto">
                     <div className="bg-background/60 rounded px-1 py-[2px] sm:px-3 sm:py-1 md:px-4 md:py-1.5 text-[6px] sm:text-xs md:text-sm text-muted-foreground text-center border border-border/50">
                       app.blanketsmith.com
@@ -118,9 +123,15 @@ export function ToolMockup() {
           </div>
         </div>
 
-        {/* Mobile Mockup - contained within section bounds */}
-        <div className="w-[140px] sm:w-[180px] lg:w-[220px] mx-auto mt-4 sm:mt-6 lg:mt-8 relative z-10">
-          <MobileMockup scrollYProgress={scrollYProgress} />
+        {/* Mobile Mockup - positioned to overlap browser with higher z-index */}
+        <div 
+          className="w-[120px] sm:w-[160px] lg:w-[200px] mx-auto relative z-20"
+          style={{
+            // Negative margin creates the overlap effect
+            marginTop: isMobile ? "-60px" : "-80px",
+          }}
+        >
+          <MobileMockup scrollYProgress={scrollYProgress} isMobile={isMobile} />
         </div>
       </div>
     </div>
