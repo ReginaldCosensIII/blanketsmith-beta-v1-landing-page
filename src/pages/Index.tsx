@@ -125,8 +125,8 @@ export default function Index() {
           <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(var(--background)/0.9),transparent_60%)] md:bg-[radial-gradient(ellipse_50%_40%_at_50%_50%,hsl(var(--background)/0.85),transparent_55%)] 3xl:bg-[radial-gradient(ellipse_35%_45%_at_50%_50%,hsl(var(--background)/0.9),transparent_50%)]" />
         </div>
 
-        {/* Beta Badge */}
-        <div className="text-center animate-fade-in">
+        {/* Beta Badge - positioned closer to header to avoid collision with floating logo */}
+        <div className="text-center animate-fade-in -mt-2 md:-mt-4">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-midblue/10 border border-brand-purple/30 cursor-pointer transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_0_20px_rgba(92,174,255,0.4)] hover:border-brand-midblue/50">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-midblue opacity-75"></span>
@@ -139,12 +139,12 @@ export default function Index() {
         {/* Main Hero Content */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6 md:mt-8">
           <div className="max-w-4xl mx-auto text-center">
-              {/* Badge Logo - with controlled animation range to prevent collision */}
-              <div className="mb-4 md:mb-6 animate-fade-in" style={{ animationDelay: "100ms" }}>
+              {/* Badge Logo - original size restored */}
+              <div className="mb-6 animate-fade-in" style={{ animationDelay: "100ms" }}>
                 <img 
                   src={logoBadge} 
                   alt="BlanketSmith" 
-                  className="h-28 sm:h-32 lg:h-36 w-auto mx-auto animate-float"
+                  className="h-36 sm:h-40 lg:h-44 w-auto mx-auto animate-float"
                 />
               </div>
 
