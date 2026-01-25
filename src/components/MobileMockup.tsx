@@ -7,27 +7,27 @@ interface MobileMockupProps {
 
 export function MobileMockup({ scrollYProgress }: MobileMockupProps) {
   // Phase 3 (0.5-0.9): Mobile animates in AFTER browser has settled
-  // This creates distinct scroll-locked phases
+  // Animation is now constrained to stay within section bounds
   
-  // Staggered depth: rises from below with forward depth shift
-  const translateZ = useTransform(scrollYProgress, [0.5, 0.9], [-40, 60]);
-  const scale = useTransform(scrollYProgress, [0.5, 0.9], [0.8, 1]);
+  // Reduced translateZ to prevent overflow beyond container
+  const translateZ = useTransform(scrollYProgress, [0.5, 0.9], [-20, 20]);
+  const scale = useTransform(scrollYProgress, [0.5, 0.9], [0.85, 1]);
   
   // Fade in as focus shifts to mobile
   const opacity = useTransform(scrollYProgress, [0.45, 0.65], [0, 1]);
   
-  // Rise up from below
-  const y = useTransform(scrollYProgress, [0.5, 0.9], [60, 0]);
+  // Reduced Y movement to stay within container bounds
+  const y = useTransform(scrollYProgress, [0.5, 0.9], [30, 0]);
   
-  // Dynamic shadow grows as mobile comes forward
-  const shadowOpacity = useTransform(scrollYProgress, [0.5, 0.9], [0, 0.6]);
-  const shadowBlur = useTransform(scrollYProgress, [0.5, 0.9], [20, 60]);
-  const shadowY = useTransform(scrollYProgress, [0.5, 0.9], [10, 35]);
-  const shadowScale = useTransform(scrollYProgress, [0.5, 0.9], [0.7, 0.85]);
+  // Dynamic shadow - reduced intensity for cleaner look
+  const shadowOpacity = useTransform(scrollYProgress, [0.5, 0.9], [0, 0.4]);
+  const shadowBlur = useTransform(scrollYProgress, [0.5, 0.9], [15, 40]);
+  const shadowY = useTransform(scrollYProgress, [0.5, 0.9], [5, 20]);
+  const shadowScale = useTransform(scrollYProgress, [0.5, 0.9], [0.8, 0.9]);
 
   // Create the filter transform outside of render
   const shadowFilter = useTransform(shadowBlur, (blur) => `blur(${blur}px)`);
-  const ambientOpacity = useTransform(scrollYProgress, [0.55, 0.85], [0, 0.3]);
+  const ambientOpacity = useTransform(scrollYProgress, [0.55, 0.85], [0, 0.2]);
 
   return (
     <div 
