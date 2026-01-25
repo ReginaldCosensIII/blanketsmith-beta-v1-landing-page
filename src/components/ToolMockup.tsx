@@ -39,10 +39,14 @@ export function ToolMockup() {
   return (
     <div 
       ref={containerRef}
-      className="relative mt-8 lg:mt-10 overflow-visible min-h-[75vh] sm:min-h-[120vh] md:min-h-[160vh] lg:min-h-[220vh] pb-24 sm:pb-32 lg:pb-40"
+      className="relative overflow-clip"
+      style={{
+        // Responsive min-height: smaller on mobile, larger on desktop
+        minHeight: "clamp(60vh, 80vh, 180vh)",
+      }}
     >
       {/* Sticky container - stays in view while scrolling drives animations */}
-      <div className="sticky top-0 h-screen flex flex-col items-center justify-start overflow-visible pt-6 pb-6 lg:pt-8 lg:pb-12">
+      <div className="sticky top-0 min-h-[60vh] sm:min-h-[70vh] lg:min-h-[80vh] flex flex-col items-center justify-center overflow-hidden py-8 lg:py-12">
         {/* Centered Browser Mockup */}
         <div className="max-w-5xl mx-auto w-full px-4">
           <div 
@@ -114,13 +118,8 @@ export function ToolMockup() {
           </div>
         </div>
 
-        {/*
-          Mobile Mockup
-          IMPORTANT: Use translate (visual overlap) instead of negative margins (layout overlap).
-          This keeps the phone fully contained within this section and preserves consistent spacing
-          before the next section across all breakpoints.
-        */}
-        <div className="w-[180px] sm:w-[220px] mx-auto mt-6 sm:mt-8 lg:mt-10 relative z-10 -translate-y-24 sm:-translate-y-32 lg:-translate-y-40">
+        {/* Mobile Mockup - contained within section bounds */}
+        <div className="w-[140px] sm:w-[180px] lg:w-[220px] mx-auto mt-4 sm:mt-6 lg:mt-8 relative z-10">
           <MobileMockup scrollYProgress={scrollYProgress} />
         </div>
       </div>
