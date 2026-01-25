@@ -1,81 +1,17 @@
-import { motion, MotionValue, useTransform } from "framer-motion";
 import { Smartphone, Sparkles } from "lucide-react";
 
-interface MobileMockupProps {
-  scrollYProgress: MotionValue<number>;
-  isMobile?: boolean;
-}
-
-export function MobileMockup({ scrollYProgress, isMobile = false }: MobileMockupProps) {
-  // Phase 2-3 (0.4-0.85): Mobile animates in AFTER browser has settled
-  // Animation is clamped to prevent overflow and respect uniform spacing
-  
-  // Responsive animation values based on device
-  const yStart = isMobile ? 80 : 120;
-  const scaleStart = isMobile ? 0.8 : 0.75;
-  const translateZEnd = isMobile ? 30 : 50;
-  
-  // Opacity: fade in during overlap phase
-  const opacity = useTransform(scrollYProgress, [0.35, 0.55], [0, 1]);
-  
-  // Y translation: rise up to create overlap effect
-  const y = useTransform(scrollYProgress, [0.4, 0.85], [yStart, 0]);
-  
-  // Scale: grow slightly as it rises
-  const scale = useTransform(scrollYProgress, [0.4, 0.85], [scaleStart, 1]);
-  
-  // 3D depth effect - push forward for visual hierarchy
-  const translateZ = useTransform(scrollYProgress, [0.4, 0.85], [0, translateZEnd]);
-  
-  // Subtle rotation for dramatic entrance
-  const rotateX = useTransform(scrollYProgress, [0.4, 0.7], [15, 0]);
-  
-  // Dynamic shadow - intensifies as phone comes forward
-  const shadowOpacity = useTransform(scrollYProgress, [0.45, 0.85], [0, 0.5]);
-  const shadowBlur = useTransform(scrollYProgress, [0.45, 0.85], [10, 50]);
-  const shadowY = useTransform(scrollYProgress, [0.45, 0.85], [5, 30]);
-  const shadowScale = useTransform(scrollYProgress, [0.45, 0.85], [0.85, 0.95]);
-
-  // Create the filter transform
-  const shadowFilter = useTransform(shadowBlur, (blur) => `blur(${blur}px)`);
-  
-  // Ambient glow effect
-  const ambientOpacity = useTransform(scrollYProgress, [0.5, 0.85], [0, 0.3]);
-
+export function MobileMockup() {
   return (
     <div 
       className="relative w-full"
       style={{ perspective: "1200px" }}
     >
-      <motion.div
-        style={{ 
-          opacity,
-          y,
-          scale,
-          translateZ,
-          rotateX,
-          transformStyle: "preserve-3d"
-        }}
-        className="relative w-full"
-      >
-        {/* Primary dynamic shadow - depth effect */}
-        <motion.div
-          style={{ 
-            opacity: shadowOpacity,
-            filter: shadowFilter,
-            y: shadowY,
-            scale: shadowScale
-          }}
-          className="absolute inset-0 -z-10 rounded-[2rem] sm:rounded-[2.5rem] bg-foreground/50"
-        />
+      <div className="relative w-full">
+        {/* Static shadow for depth */}
+        <div className="absolute inset-0 -z-10 rounded-[2rem] sm:rounded-[2.5rem] bg-foreground/30 blur-2xl transform translate-y-4 scale-95" />
         
         {/* Ambient glow - brand color accent */}
-        <motion.div
-          style={{ 
-            opacity: ambientOpacity,
-          }}
-          className="absolute inset-0 -z-20 rounded-[2rem] sm:rounded-[2.5rem] bg-primary/30 blur-3xl transform translate-y-10 scale-125"
-        />
+        <div className="absolute inset-0 -z-20 rounded-[2rem] sm:rounded-[2.5rem] bg-primary/20 blur-3xl transform translate-y-10 scale-125" />
         
         {/* Phone Frame */}
         <div className="w-full rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border-[4px] sm:border-[5px] border-foreground/90 bg-foreground/90 relative shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),0_12px_24px_-8px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.15)]">
@@ -136,7 +72,7 @@ export function MobileMockup({ scrollYProgress, isMobile = false }: MobileMockup
         
         {/* Phone Bottom Bar Indicator */}
         <div className="absolute bottom-1.5 sm:bottom-2 left-1/2 -translate-x-1/2 w-8 sm:w-12 h-0.5 sm:h-1 bg-background/60 rounded-full" />
-      </motion.div>
+      </div>
     </div>
   );
 }

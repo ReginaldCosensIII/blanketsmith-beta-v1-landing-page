@@ -2,56 +2,38 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import betaUIScreenshot from "@/assets/beta-ui-screenshot.png";
 import { MobileMockup } from "./MobileMockup";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 export function ToolMockup() {
   const containerRef = useRef(null);
-  const isMobile = useIsMobile();
   
-  // Scroll through this tall container drives the animations
-  // The sticky inner element stays in place while animations play
+  // Simple scroll-based animation - no scroll lock, animates as section enters viewport
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end end"]
+    offset: ["start end", "end center"]
   });
 
-  // Phase 1 (0-0.35): Browser animates in from 3D perspective
-  // Phase 2 (0.35-0.5): Hold - browser settled, mobile begins fade
-  // Phase 3 (0.5-0.85): Mobile translates up and overlaps browser
-  // Phase 4 (0.85-1): Hold - both settled at final positions
-
-  // Browser animation: completes in first 35% of scroll
-  const browserRotateX = useTransform(scrollYProgress, [0, 0.35], [45, 0]);
-  const browserRotateY = useTransform(scrollYProgress, [0, 0.35], [-20, 0]);
-  const browserRotateZ = useTransform(scrollYProgress, [0, 0.35], [5, 0]);
-  const browserScale = useTransform(scrollYProgress, [0, 0.35], [0.75, 1]);
-  const browserOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
-  const browserY = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
+  // Browser animation: smooth entrance as section scrolls into view
+  const browserRotateX = useTransform(scrollYProgress, [0, 0.6], [25, 0]);
+  const browserRotateY = useTransform(scrollYProgress, [0, 0.6], [-10, 0]);
+  const browserScale = useTransform(scrollYProgress, [0, 0.6], [0.9, 1]);
+  const browserOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+  const browserY = useTransform(scrollYProgress, [0, 0.6], [40, 0]);
   
   // Browser shadow
-  const shadowOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  const shadowScale = useTransform(scrollYProgress, [0, 0.35], [0.85, 1]);
-  const shadowY = useTransform(scrollYProgress, [0, 0.35], [40, 0]);
+  const shadowOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
   
-  // Browser inner parallax
-  const topBarY = useTransform(scrollYProgress, [0, 0.35], [-8, 0]);
-  const screenshotY = useTransform(scrollYProgress, [0, 0.35], [15, 0]);
-  const screenshotScale = useTransform(scrollYProgress, [0, 0.35], [1.02, 1]);
-
-  // Responsive scroll estate height - ensures enough room for animation
-  // Clamped to respect the uniform spacing system
-  const scrollEstateHeight = isMobile ? "120vh" : "160vh";
+  // Mobile mockup: fades in and slides up slightly after browser settles
+  const mobileOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
+  const mobileY = useTransform(scrollYProgress, [0.3, 0.7], [30, 0]);
+  const mobileScale = useTransform(scrollYProgress, [0.3, 0.7], [0.95, 1]);
 
   return (
     <div 
       ref={containerRef}
-      className="relative overflow-clip"
-      style={{
-        minHeight: scrollEstateHeight,
-      }}
+      className="relative"
     >
-      {/* Sticky container - stays in view while scrolling drives animations */}
-      <div className="sticky top-0 min-h-[50vh] sm:min-h-[60vh] lg:min-h-[70vh] flex flex-col items-center justify-start pt-8 sm:pt-12 lg:pt-16 overflow-visible">
+      {/* Simple flex container - no sticky positioning needed */}
+      <div className="flex flex-col items-center">
         {/* Browser Mockup Container */}
         <div className="max-w-5xl mx-auto w-full px-4 relative z-0">
           <div 
@@ -62,30 +44,22 @@ export function ToolMockup() {
               style={{ 
                 rotateX: browserRotateX, 
                 rotateY: browserRotateY, 
-                rotateZ: browserRotateZ,
                 scale: browserScale,
                 opacity: browserOpacity,
                 y: browserY,
                 transformStyle: "preserve-3d" 
               }}
             >
-              {/* Animated Shadow Layer */}
+              {/* Static Shadow Layer */}
               <motion.div
-                style={{
-                  opacity: shadowOpacity,
-                  scale: shadowScale,
-                  y: shadowY
-                }}
+                style={{ opacity: shadowOpacity }}
                 className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-b from-primary/20 to-accent/10 blur-3xl transform translate-y-8 scale-95"
               />
               
               {/* Browser Frame */}
               <div className="rounded-xl overflow-hidden border border-border bg-card relative shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25),0_30px_60px_-30px_rgba(0,0,0,0.3)]">
                 {/* Browser Top Bar */}
-                <motion.div 
-                  style={{ y: topBarY }}
-                  className="bg-secondary/80 border-b border-border px-1 py-0.5 sm:px-3 sm:py-2 md:px-4 md:py-3 flex items-center gap-0.5 sm:gap-2 md:gap-3 relative z-10"
-                >
+                <div className="bg-secondary/80 border-b border-border px-1 py-0.5 sm:px-3 sm:py-2 md:px-4 md:py-3 flex items-center gap-0.5 sm:gap-2 md:gap-3 relative z-10">
                   {/* Traffic Lights */}
                   <div className="flex items-center gap-[2px] sm:gap-1.5 md:gap-2">
                     <div className="w-1 h-1 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-red-400/80" />
@@ -102,13 +76,10 @@ export function ToolMockup() {
                   
                   {/* Spacer for symmetry */}
                   <div className="w-3 sm:w-10 md:w-14" />
-                </motion.div>
+                </div>
 
                 {/* Screenshot */}
-                <motion.div 
-                  style={{ y: screenshotY, scale: screenshotScale }}
-                  className="relative bg-background origin-top"
-                >
+                <div className="relative bg-background">
                   <img 
                     src={betaUIScreenshot} 
                     alt="BlanketSmith Pattern Tool Interface" 
@@ -117,22 +88,23 @@ export function ToolMockup() {
                   
                   {/* Subtle gradient overlay at bottom */}
                   <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-card/50 to-transparent pointer-events-none" />
-                </motion.div>
+                </div>
               </div>
             </motion.div>
           </div>
         </div>
 
         {/* Mobile Mockup - positioned to overlap browser with higher z-index */}
-        <div 
-          className="w-[120px] sm:w-[160px] lg:w-[200px] mx-auto relative z-20"
+        <motion.div 
+          className="w-[120px] sm:w-[160px] lg:w-[200px] mx-auto relative z-20 -mt-16 sm:-mt-20 lg:-mt-24"
           style={{
-            // Negative margin creates the overlap effect
-            marginTop: isMobile ? "-60px" : "-80px",
+            opacity: mobileOpacity,
+            y: mobileY,
+            scale: mobileScale,
           }}
         >
-          <MobileMockup scrollYProgress={scrollYProgress} isMobile={isMobile} />
-        </div>
+          <MobileMockup />
+        </motion.div>
       </div>
     </div>
   );
