@@ -73,7 +73,7 @@ export default function Index() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative overflow-hidden min-h-screen flex flex-col">
+      <section className="relative overflow-hidden py-24 md:py-32">
         {/* Background Effects */}
         <div className="absolute inset-0 -z-10">
           {/* Decorative blur orbs - symmetrical gradient orbs */}
@@ -125,8 +125,8 @@ export default function Index() {
           <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(var(--background)/0.9),transparent_60%)] md:bg-[radial-gradient(ellipse_50%_40%_at_50%_50%,hsl(var(--background)/0.85),transparent_55%)] 3xl:bg-[radial-gradient(ellipse_35%_45%_at_50%_50%,hsl(var(--background)/0.9),transparent_50%)]" />
         </div>
 
-        {/* Beta Badge - Fixed at top */}
-        <div className="pt-6 pb-2 text-center animate-fade-in">
+        {/* Beta Badge */}
+        <div className="text-center animate-fade-in">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-midblue/10 border border-brand-purple/30 cursor-pointer transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_0_20px_rgba(92,174,255,0.4)] hover:border-brand-midblue/50">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-midblue opacity-75"></span>
@@ -137,9 +137,8 @@ export default function Index() {
         </div>
 
         {/* Main Hero Content */}
-        <div className="flex-1 flex items-center">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-16">
+          <div className="max-w-4xl mx-auto text-center">
               {/* Badge Logo */}
               <div className="mb-6 animate-fade-in" style={{ animationDelay: "100ms" }}>
                 <img 
@@ -168,7 +167,7 @@ export default function Index() {
               </p>
 
               {/* CTA */}
-              <div className="animate-fade-in pb-12" style={{ animationDelay: "400ms" }}>
+              <div className="animate-fade-in" style={{ animationDelay: "400ms" }}>
                 <Button variant="gradient" size="xl" asChild>
                   <Link to="/beta-signup">
                     Sign Up for the Beta
@@ -178,11 +177,10 @@ export default function Index() {
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* What is BlanketSmith? Section */}
-      <section className="py-20 lg:py-28 bg-secondary/30">
+      <section className="py-24 md:py-32 bg-secondary/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-6">
@@ -202,14 +200,16 @@ export default function Index() {
           </div>
           
           {/* Tool Mockup */}
-          <ToolMockup />
+          <div className="mt-12 md:mt-16">
+            <ToolMockup />
+          </div>
         </div>
       </section>
 
       {/* Feature Highlights */}
-      <section className="py-20 lg:py-28">
+      <section className="py-24 md:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center">
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
               Feature Highlights
             </h2>
@@ -220,11 +220,12 @@ export default function Index() {
           </div>
 
           {/* Feature Tour Mockup */}
-          <FeatureTourMockup />
+          <div className="mt-12 md:mt-16">
+            <FeatureTourMockup />
+          </div>
 
-          <div className="mt-16">
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="mt-12 md:mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
@@ -241,36 +242,36 @@ export default function Index() {
                   {feature.description}
                 </p>
               </div>
-            ))}
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* About the Platform */}
-      <section className="py-20 lg:py-28 bg-secondary/30">
+      <section className="py-24 md:py-32 bg-secondary/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
+            <div className="text-center">
               <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
                 About BlanketSmith
               </h2>
-              <p className="font-sans text-muted-foreground max-w-2xl mx-auto text-lg mb-10">
+              <p className="font-sans text-muted-foreground max-w-2xl mx-auto text-lg">
                 We're building more than a tool—we're nurturing a community of makers 
                 who believe creativity should be accessible to everyone.
               </p>
+            </div>
               
-              {/* Community Image */}
-              <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-soft border border-border">
+            {/* Community Image */}
+            <div className="mt-12 md:mt-16 max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-soft border border-border">
                 <img 
                   src={communityCrafting} 
                   alt="Makers collaborating on colorful blanket and quilting projects" 
                   className="w-full h-auto"
                 />
-              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
               {platformValues.map((value, index) => (
                 <div 
                   key={value.title}
@@ -289,7 +290,7 @@ export default function Index() {
               ))}
             </div>
 
-            <div className="mt-16 text-center">
+            <div className="mt-12 md:mt-16 text-center">
               <p className="font-sans text-muted-foreground mb-6">
                 BlanketSmith is currently in beta. We're actively developing new features 
                 and listening to feedback from makers like you.
@@ -306,14 +307,14 @@ export default function Index() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 lg:py-28 gradient-bg relative overflow-hidden">
+      <section className="py-24 md:py-32 gradient-bg relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-primary-foreground mb-6">
               Ready to Transform Your Pattern Workflow?
             </h2>
-            <p className="font-sans text-primary-foreground/80 text-lg mb-10">
+            <p className="font-sans text-primary-foreground/80 text-lg mb-8">
               Join the makers already testing BlanketSmith. 
               Sign up today and be part of the future of pattern creation.
             </p>
