@@ -148,8 +148,8 @@ export default function Index() {
                 />
               </div>
 
-              {/* Brand Name - Poppins Bold */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 animate-fade-in" style={{ fontFamily: "'Poppins', sans-serif", animationDelay: "150ms" }}>
+              {/* Brand Name - Poppins Black (900) */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground mb-4 animate-fade-in" style={{ fontFamily: "'Poppins', sans-serif", animationDelay: "150ms" }}>
                 BlanketSmith
               </h1>
 
