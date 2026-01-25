@@ -72,8 +72,8 @@ const platformValues = [
 export default function Index() {
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 md:py-32">
+      {/* Hero Section - Exception to uniform spacing: designed to be above the fold */}
+      <section className="relative overflow-hidden pt-8 pb-16 md:pt-12 md:pb-20">
         {/* Background Effects */}
         <div className="absolute inset-0 -z-10">
           {/* Decorative blur orbs - symmetrical gradient orbs */}
@@ -137,19 +137,19 @@ export default function Index() {
         </div>
 
         {/* Main Hero Content */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6 md:mt-8">
           <div className="max-w-4xl mx-auto text-center">
-              {/* Badge Logo */}
-              <div className="mb-6 animate-fade-in" style={{ animationDelay: "100ms" }}>
+              {/* Badge Logo - with controlled animation range to prevent collision */}
+              <div className="mb-4 md:mb-6 animate-fade-in" style={{ animationDelay: "100ms" }}>
                 <img 
                   src={logoBadge} 
                   alt="BlanketSmith" 
-                  className="h-36 sm:h-40 lg:h-44 w-auto mx-auto animate-float"
+                  className="h-28 sm:h-32 lg:h-36 w-auto mx-auto animate-float"
                 />
               </div>
 
-              {/* Brand Name */}
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground mb-4 animate-fade-in" style={{ animationDelay: "150ms" }}>
+              {/* Brand Name - Poppins Bold */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 animate-fade-in" style={{ fontFamily: "'Poppins', sans-serif", animationDelay: "150ms" }}>
                 BlanketSmith
               </h1>
 
@@ -160,7 +160,7 @@ export default function Index() {
               </h2>
 
               {/* Subheadline */}
-              <p className="font-sans text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-in" style={{ animationDelay: "300ms" }}>
+              <p className="font-sans text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 animate-fade-in" style={{ animationDelay: "300ms" }}>
                 BlanketSmith transforms your ideas into ready-to-use blanket patterns instantly. 
                 Designed for crocheters and knitters who value precision, creativity, and a 
                 streamlined workflow.
