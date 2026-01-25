@@ -1,7 +1,9 @@
 import type { Config } from "tailwindcss";
 
-// Note: Hero section is an intentional exception to the uniform py-24 md:py-32 spacing system.
-// It uses reduced padding (pt-8 pb-16 / md:pt-12 md:pb-20) to keep content above the fold.
+// Section Spacing System:
+// - Standard sections: py-20 md:py-28 (uniform vertical padding)
+// - Hero section: pt-8 pb-16 / md:pt-12 md:pb-20 (exception to keep content above the fold)
+// - Content gaps: mt-12 md:mt-16 (between headings and content)
 
 // Custom scale utility for hover:scale-115
 

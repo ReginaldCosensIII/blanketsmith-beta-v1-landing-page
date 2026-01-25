@@ -180,7 +180,7 @@ export default function Index() {
       </section>
 
       {/* What is BlanketSmith? Section */}
-      <section className="py-24 md:py-32 bg-secondary/30">
+      <section className="py-20 md:py-28 bg-secondary/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-6">
@@ -207,7 +207,7 @@ export default function Index() {
       </section>
 
       {/* Feature Highlights */}
-      <section className="py-24 md:py-32">
+      <section className="py-20 md:py-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
@@ -249,7 +249,7 @@ export default function Index() {
       </section>
 
       {/* About the Platform */}
-      <section className="py-24 md:py-32 bg-secondary/30">
+      <section className="py-20 md:py-28 bg-secondary/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-5xl mx-auto">
             <div className="text-center">
@@ -307,7 +307,7 @@ export default function Index() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-24 md:py-32 gradient-bg relative overflow-hidden">
+      <section className="py-20 md:py-28 gradient-bg relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
