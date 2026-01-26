@@ -283,7 +283,7 @@ export default function Index() {
                   <h3 className="font-display text-xl font-semibold text-foreground mb-3">
                     {value.title}
                   </h3>
-                  <p className="font-sans text-muted-foreground text-sm leading-relaxed">
+                  <p className="font-sans text-muted-foreground text-sm leading-relaxed line-clamp-3 min-h-[3.75rem]">
                     {value.description}
                   </p>
                 </div>
