@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import betaUIScreenshot from "@/assets/beta-ui-screenshot.png";
+import heroScreenshot from "@/assets/hero-screenshot.png";
 
 export function FeatureTourMockup() {
   const ref = useRef(null);
@@ -78,7 +78,7 @@ export function FeatureTourMockup() {
                 {/* Screenshot with Tour Overlay */}
                 <div className="relative bg-background">
                   <img 
-                    src={betaUIScreenshot} 
+                    src={heroScreenshot} 
                     alt="BlanketSmith Pattern Tool Interface - Feature Tour" 
                     className="w-full h-auto block"
                   />
