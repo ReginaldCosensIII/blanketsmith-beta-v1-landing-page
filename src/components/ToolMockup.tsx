@@ -24,8 +24,10 @@ export function ToolMockup() {
   const browserOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
   const browserY = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
   
-  // Browser shadow intensifies as it settles
-  const browserShadowOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]);
+  // Browser shadow - intensifies, scales, and rotates as it settles (matching mobile behavior)
+  const browserShadowOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0.2, 1]);
+  const browserShadowScale = useTransform(scrollYProgress, [0, 0.35], [0.88, 0.95]);
+  const browserShadowRotate = useTransform(scrollYProgress, [0, 0.35], [-2, 0]);
   
   // === PHASE 2: Mobile Entrance (40% - 70% scroll) ===
   // Mobile starts after browser is fully settled, rises up dramatically to overlap
@@ -70,10 +72,14 @@ export function ToolMockup() {
                 transformStyle: "preserve-3d" 
               }}
             >
-              {/* Dynamic Shadow Layer - soft blur orb unified with mobile style */}
+              {/* Dynamic Shadow Layer - unified soft blur orb with scale/rotation */}
               <motion.div
-                style={{ opacity: browserShadowOpacity }}
-                className="absolute inset-0 -z-10 rounded-xl bg-foreground/30 blur-3xl transform translate-y-8 scale-95"
+                style={{ 
+                  opacity: browserShadowOpacity,
+                  scale: browserShadowScale,
+                  rotateZ: browserShadowRotate,
+                }}
+                className="absolute inset-0 -z-10 rounded-xl bg-foreground/35 blur-2xl translate-y-8"
               />
               
               {/* Browser Frame */}
@@ -127,9 +133,9 @@ export function ToolMockup() {
             perspective: "1200px",
           }}
         >
-          {/* Dynamic depth shadow - intensifies and subtly rotates as phone comes forward */}
+          {/* Dynamic depth shadow - unified soft blur orb matching browser style */}
           <motion.div 
-            className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/40 blur-2xl"
+            className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/35 blur-2xl"
             style={{
               opacity: mobileShadowIntensity,
               scale: mobileShadowScale,
