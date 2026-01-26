@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import betaUIScreenshot from "@/assets/beta-ui-screenshot.png";
 import { MobileMockup } from "./MobileMockup";
 
@@ -12,6 +12,9 @@ export function ToolMockup() {
     target: containerRef,
     offset: ["start end", "end start"]
   });
+
+  // Spring config for smooth, polished motion
+  const springConfig = { stiffness: 100, damping: 20, mass: 0.5 };
 
   // === PHASE 1: Browser Entrance (0% - 35% scroll) ===
   // Browser rotates in from a tilted perspective and settles completely before mobile begins
@@ -27,13 +30,19 @@ export function ToolMockup() {
   // === PHASE 2: Mobile Entrance (40% - 70% scroll) ===
   // Mobile starts after browser is fully settled, rises up dramatically to overlap
   const mobileOpacity = useTransform(scrollYProgress, [0.4, 0.5], [0, 1]);
-  const mobileY = useTransform(scrollYProgress, [0.4, 0.7], [100, 0]);
-  const mobileScale = useTransform(scrollYProgress, [0.4, 0.7], [0.85, 1]);
-  const mobileRotateX = useTransform(scrollYProgress, [0.4, 0.7], [12, 0]);
+  const mobileYRaw = useTransform(scrollYProgress, [0.4, 0.7], [100, 0]);
+  const mobileScaleRaw = useTransform(scrollYProgress, [0.4, 0.7], [0.85, 1]);
+  const mobileRotateXRaw = useTransform(scrollYProgress, [0.4, 0.7], [12, 0]);
+  
+  // Apply spring physics to mobile entrance for bouncy, polished feel
+  const mobileY = useSpring(mobileYRaw, springConfig);
+  const mobileScale = useSpring(mobileScaleRaw, springConfig);
+  const mobileRotateX = useSpring(mobileRotateXRaw, springConfig);
   
   // === PHASE 3: Convergence & Depth (55% - 80% scroll) ===
   // Mobile comes forward in Z-space, shadow deepens and rotates for layered 3D effect
-  const mobileZ = useTransform(scrollYProgress, [0.55, 0.75], [0, 50]);
+  const mobileZRaw = useTransform(scrollYProgress, [0.55, 0.75], [0, 50]);
+  const mobileZ = useSpring(mobileZRaw, springConfig);
   const mobileShadowIntensity = useTransform(scrollYProgress, [0.5, 0.8], [0.2, 1]);
   const mobileShadowScale = useTransform(scrollYProgress, [0.4, 0.8], [0.85, 0.92]);
   const mobileShadowRotate = useTransform(scrollYProgress, [0.4, 0.8], [3, 0]);
