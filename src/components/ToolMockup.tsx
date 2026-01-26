@@ -79,7 +79,7 @@ export function ToolMockup() {
                   scale: browserShadowScale,
                   rotateZ: browserShadowRotate,
                 }}
-                className="absolute inset-0 -z-10 rounded-xl bg-foreground/35 blur-2xl translate-y-8"
+                className="absolute inset-0 -z-10 rounded-xl bg-foreground/50 blur-2xl translate-y-8"
               />
               
               {/* Browser Frame */}
