@@ -18,29 +18,15 @@ export function MobileMockup() {
           
           {/* Screen Content */}
           <div className="bg-background relative overflow-hidden w-full">
-            {/* Aspect ratio wrapper for mobile (9:19.5) */}
-            <div className="relative w-full" style={{ aspectRatio: "9/19.5" }}>
+            {/* Aspect ratio wrapper matching the screenshot's natural proportions */}
+            <div className="relative w-full bg-background" style={{ aspectRatio: "9/20" }}>
               
-              {/* Top status bar area - matches screenshot header */}
-              <div className="absolute inset-x-0 top-0 h-[8%] bg-[#f0f0f0] z-10 flex items-center justify-center">
-                {/* Notch/Dynamic Island centered */}
-                <div className="w-10 sm:w-14 h-1.5 sm:h-2 bg-foreground/80 rounded-full" />
-              </div>
-              
-              {/* Screenshot image - positioned between top and bottom bars */}
-              <div className="absolute inset-x-0 top-[8%] bottom-[6%] overflow-hidden">
-                <img 
-                  src={mobileScreenshot} 
-                  alt="BlanketSmith mobile app interface"
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: "center 15%" }}
-                />
-              </div>
-              
-              {/* Bottom home indicator bar */}
-              <div className="absolute inset-x-0 bottom-0 h-[6%] bg-[#f0f0f0] z-10 flex items-center justify-center">
-                <div className="w-8 sm:w-12 h-1 sm:h-1.5 bg-foreground/40 rounded-full" />
-              </div>
+              {/* Screenshot image - full display with contain to show everything */}
+              <img 
+                src={mobileScreenshot} 
+                alt="BlanketSmith mobile app interface"
+                className="w-full h-full object-contain object-top"
+              />
               
             </div>
           </div>
