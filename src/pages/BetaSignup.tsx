@@ -107,7 +107,7 @@ export default function BetaSignup() {
                   ))}
                 </ul>
 
-                <div className="p-6 rounded-2xl bg-secondary/50 border border-border">
+                <div className="p-6 rounded-2xl glass">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-purple via-brand-midblue to-brand-cyan flex items-center justify-center flex-shrink-0">
                       <Sparkles className="w-5 h-5 text-white" />
@@ -127,7 +127,7 @@ export default function BetaSignup() {
               {/* Right Column - Form */}
               <div className="lg:sticky lg:top-28">
                 {isSubmitted ? (
-                  <div className="rounded-2xl border border-border bg-card p-8 lg:p-12 text-center">
+                  <div className="rounded-2xl glass p-8 lg:p-12 text-center">
                     <motion.div 
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -150,7 +150,7 @@ export default function BetaSignup() {
                 ) : (
                   <motion.form 
                     onSubmit={handleSubmit}
-                    className="rounded-2xl border border-border bg-card p-8 lg:p-12"
+                    className="rounded-2xl glass p-8 lg:p-12"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
