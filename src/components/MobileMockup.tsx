@@ -18,6 +18,9 @@ export function MobileMockup() {
           
           {/* Screen Content - uses a light gray background to match the screenshot's UI */}
           <div className="bg-[#f5f5f5] relative overflow-hidden w-full rounded-[0.5rem] sm:rounded-[0.75rem]">
+            {/* Camera notch / Dynamic Island */}
+            <div className="absolute top-2 sm:top-3 left-1/2 -translate-x-1/2 z-10 w-12 sm:w-16 h-4 sm:h-5 bg-foreground rounded-full" />
+            
             {/* Aspect ratio wrapper - 4:5 for wider proportions */}
             <div className="relative w-full flex flex-col items-center justify-start" style={{ aspectRatio: "4/5" }}>
               
