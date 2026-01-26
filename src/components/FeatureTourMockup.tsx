@@ -41,20 +41,36 @@ export function FeatureTourMockup() {
               transformStyle: "preserve-3d" 
             }}
           >
-            {/* Dynamic Shadow Layer - unified soft blur orb with scale/rotation */}
+            {/* Dynamic Shadow Layers - soft all-around glow effect */}
+            {/* Bottom shadow - primary depth */}
             <motion.div
               style={{
                 opacity: shadowOpacity,
                 scale: shadowScale,
                 rotateZ: shadowRotate,
               }}
-              className="absolute inset-0 -z-10 rounded-xl bg-foreground/70 blur-2xl translate-y-8"
+              className="absolute inset-0 -z-10 rounded-2xl bg-foreground/60 blur-2xl translate-y-6"
+            />
+            {/* Top shadow - subtle lift */}
+            <motion.div
+              style={{
+                opacity: shadowOpacity,
+                scale: shadowScale,
+              }}
+              className="absolute inset-0 -z-10 rounded-2xl bg-foreground/30 blur-2xl -translate-y-4"
+            />
+            {/* All-around ambient shadow */}
+            <motion.div
+              style={{
+                opacity: shadowOpacity,
+              }}
+              className="absolute -inset-4 -z-20 rounded-3xl bg-foreground/20 blur-3xl"
             />
             
             {/* Monitor Frame */}
             <div className="relative">
               {/* Monitor Screen */}
-              <div className="rounded-xl overflow-hidden border border-border bg-card relative">
+              <div className="rounded-2xl overflow-hidden border border-border/50 bg-card relative shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
                 {/* Browser Top Bar */}
                 <div className="bg-secondary/80 border-b border-border px-1.5 py-1 sm:px-3 sm:py-2 md:px-4 md:py-3 flex items-center gap-1 sm:gap-2 md:gap-3">
                   {/* Traffic Lights */}
