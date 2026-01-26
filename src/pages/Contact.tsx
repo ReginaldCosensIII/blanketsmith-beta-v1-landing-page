@@ -147,10 +147,10 @@ export default function Contact() {
                   key={reason.id}
                   type="button"
                   onClick={() => setSelectedReason(reason.id)}
-                  className={`group p-5 rounded-xl border text-left transition-all ${
+                  className={`group p-5 rounded-xl text-left transition-all glass ${
                     selectedReason === reason.id
-                      ? "border-primary bg-primary/5 ring-2 ring-primary/20"
-                      : "border-border bg-card hover:border-primary/30"
+                      ? "!border-primary !bg-primary/10 ring-2 ring-primary/20"
+                      : "hover:border-primary/30"
                   }`}
                 >
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-all duration-300 ease-out ${
@@ -169,7 +169,7 @@ export default function Contact() {
             {/* Form */}
             <motion.form 
               onSubmit={handleSubmit}
-              className="rounded-2xl border border-border bg-card p-8"
+              className="rounded-2xl glass p-8"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
