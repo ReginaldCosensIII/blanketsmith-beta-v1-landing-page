@@ -107,9 +107,9 @@ export default function BetaSignup() {
                   ))}
                 </ul>
 
-                <div className="p-6 rounded-2xl bg-secondary/50 border border-border">
+                <div className="p-6 rounded-2xl bg-secondary/50 border border-border group transition-all duration-300 ease-out hover:border-brand-midblue/50 hover:shadow-[0_0_20px_rgba(92,174,255,0.2)]">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-purple via-brand-midblue to-brand-cyan flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-purple via-brand-midblue to-brand-cyan flex items-center justify-center flex-shrink-0 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(92,174,255,0.4)]">
                       <Sparkles className="w-5 h-5 text-white" />
                     </div>
                     <div>
