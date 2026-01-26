@@ -19,7 +19,7 @@ export function MobileMockup() {
           {/* Screen Content - uses a light gray background to match the screenshot's UI */}
           <div className="bg-[#f5f5f5] relative overflow-hidden w-full">
             {/* Aspect ratio wrapper - 9:19 for standard mobile proportions */}
-            <div className="relative w-full flex flex-col items-center justify-start" style={{ aspectRatio: "9/14" }}>
+            <div className="relative w-full flex flex-col items-center justify-start" style={{ aspectRatio: "3/4" }}>
               
               {/* Screenshot image - full width, natural height, prioritizing header visibility */}
               <img 
