@@ -70,14 +70,14 @@ export function ToolMockup() {
                 transformStyle: "preserve-3d" 
               }}
             >
-              {/* Dynamic Shadow Layer */}
+              {/* Dynamic Shadow Layer - soft blur orb unified with mobile style */}
               <motion.div
                 style={{ opacity: browserShadowOpacity }}
-                className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-b from-primary/20 to-accent/10 blur-3xl transform translate-y-8 scale-95"
+                className="absolute inset-0 -z-10 rounded-xl bg-foreground/30 blur-3xl transform translate-y-8 scale-95"
               />
               
               {/* Browser Frame */}
-              <div className="rounded-xl overflow-hidden border border-border bg-card relative shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25),0_30px_60px_-30px_rgba(0,0,0,0.3)]">
+              <div className="rounded-xl overflow-hidden border border-border bg-card relative">
                 {/* Browser Top Bar */}
                 <div className="bg-secondary/80 border-b border-border px-1 py-0.5 sm:px-3 sm:py-2 md:px-4 md:py-3 flex items-center gap-0.5 sm:gap-2 md:gap-3 relative z-10">
                   {/* Traffic Lights */}
