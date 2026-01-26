@@ -135,7 +135,7 @@ export function ToolMockup() {
         >
           {/* Dynamic depth shadow - unified soft blur orb matching browser style */}
           <motion.div 
-            className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/35 blur-2xl"
+            className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/50 blur-2xl"
             style={{
               opacity: mobileShadowIntensity,
               scale: mobileShadowScale,
