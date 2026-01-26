@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { PageDecorImage } from "@/components/PageDecorImage";
 import { Store, Users, Palette, CheckCircle2, ArrowRight, Home } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import pageDecorPartnerships from "@/assets/page-decor-partnerships.jpg";
 
 const partnerTypes = [
   {
@@ -123,6 +125,7 @@ export default function Partnerships() {
     <Layout>
       <section className="py-16 lg:py-24 relative">
         <div className="absolute inset-0 radial-gradient-wash pointer-events-none" aria-hidden="true" />
+        <PageDecorImage src={pageDecorPartnerships} alt="Partners collaborating over yarn samples" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
