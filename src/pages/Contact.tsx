@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { PageDecorImage } from "@/components/PageDecorImage";
+import { SyncedImageCarousel } from "@/components/SyncedImageCarousel";
 import { Mail, MessageSquare, HelpCircle, CheckCircle2, ArrowRight, Home } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import pageDecorContact from "@/assets/page-decor-contact.jpg";
 
 const contactReasons = [
   {
@@ -52,10 +51,14 @@ const itemVariants = {
 };
 
 export default function Contact() {
-  const [selectedReason, setSelectedReason] = useState<string>("general");
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
+
+  const handleCardSelect = (index: number) => {
+    setSelectedIndex(index);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -124,7 +127,6 @@ export default function Contact() {
     <Layout>
       <section className="py-16 lg:py-24 relative">
         <div className="absolute inset-0 radial-gradient-wash pointer-events-none" aria-hidden="true" />
-        <PageDecorImage src={pageDecorContact} alt="Hands working together on a colorful blanket" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -133,7 +135,7 @@ export default function Contact() {
             className="max-w-3xl mx-auto"
           >
             {/* Header */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-8">
               <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
                 Get in Touch
               </h1>
@@ -143,29 +145,39 @@ export default function Contact() {
               </p>
             </div>
 
+            {/* Synced Image Carousel */}
+            <SyncedImageCarousel 
+              activeIndex={selectedIndex}
+              onIndexChange={handleCardSelect}
+              className="mb-10"
+            />
+
             {/* Reason Selection */}
             <div className="grid sm:grid-cols-3 gap-4 mb-10">
-              {contactReasons.map((reason) => (
-                <button
+              {contactReasons.map((reason, index) => (
+                <motion.button
                   key={reason.id}
                   type="button"
-                  onClick={() => setSelectedReason(reason.id)}
+                  onClick={() => handleCardSelect(index)}
                   className={`group p-5 rounded-xl text-left transition-all glass ${
-                    selectedReason === reason.id
+                    selectedIndex === index
                       ? "!border-primary !bg-primary/10 ring-2 ring-primary/20"
                       : "hover:border-primary/30"
                   }`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-all duration-300 ease-out ${
-                    selectedReason === reason.id 
+                    selectedIndex === index 
                       ? "bg-gradient-to-br from-brand-purple via-brand-midblue to-brand-cyan" 
                       : "bg-gradient-to-br from-brand-midblue/10 to-brand-cyan/10 border border-brand-purple/30 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(92,174,255,0.4)] group-hover:border-brand-midblue/50"
                   }`}>
-                    <reason.icon className={`w-5 h-5 ${selectedReason === reason.id ? "text-white" : "text-brand-midblue"}`} />
+                    <reason.icon className={`w-5 h-5 ${selectedIndex === index ? "text-white" : "text-brand-midblue"}`} />
                   </div>
                   <h3 className="font-medium text-foreground mb-1">{reason.title}</h3>
                   <p className="text-xs text-muted-foreground">{reason.description}</p>
-                </button>
+                </motion.button>
               ))}
             </div>
 
