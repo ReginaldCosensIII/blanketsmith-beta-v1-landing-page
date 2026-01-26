@@ -1,7 +1,23 @@
 import { Link } from "react-router-dom";
 import logoHorizontal from "@/assets/logo-horizontal.svg";
 import faviconBadge from "@/assets/favicon-badge.svg";
-import { Twitter, Instagram, Youtube } from "lucide-react";
+import { Twitter, Instagram, Youtube, Facebook } from "lucide-react";
+
+// Custom TikTok icon since lucide doesn't have one
+const TikTok = ({ className, strokeWidth }: { className?: string; strokeWidth?: number }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth={strokeWidth || 2} 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 const footerLinks = {
   product: [
@@ -19,9 +35,11 @@ const footerLinks = {
 };
 
 const socialLinks = [
+  { icon: Facebook, href: "https://facebook.com/blanketsmith", label: "Facebook" },
   { icon: Twitter, href: "https://twitter.com/blanketsmith", label: "Twitter" },
   { icon: Instagram, href: "https://instagram.com/blanketsmith", label: "Instagram" },
   { icon: Youtube, href: "https://youtube.com/@blanketsmith", label: "YouTube" },
+  { icon: TikTok, href: "https://tiktok.com/@blanketsmith", label: "TikTok" },
 ];
 
 export function Footer() {
