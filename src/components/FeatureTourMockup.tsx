@@ -18,8 +18,10 @@ export function FeatureTourMockup() {
   const opacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
   const x = useTransform(scrollYProgress, [0, 1], [-80, 0]);
   
-  // Shadow animation
-  const shadowOpacity = useTransform(scrollYProgress, [0, 0.6], [0, 1]);
+  // Shadow animation - unified with ToolMockup style (opacity, scale, rotation)
+  const shadowOpacity = useTransform(scrollYProgress, [0, 0.6], [0.2, 1]);
+  const shadowScale = useTransform(scrollYProgress, [0, 1], [0.88, 0.95]);
+  const shadowRotate = useTransform(scrollYProgress, [0, 1], [-2, 0]);
 
   return (
 <div className="mt-8 lg:mt-12 overflow-hidden">
@@ -39,18 +41,20 @@ export function FeatureTourMockup() {
               transformStyle: "preserve-3d" 
             }}
           >
-            {/* Animated Shadow Layer */}
+            {/* Dynamic Shadow Layer - unified soft blur orb with scale/rotation */}
             <motion.div
               style={{
                 opacity: shadowOpacity,
+                scale: shadowScale,
+                rotateZ: shadowRotate,
               }}
-              className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-b from-primary/20 to-accent/10 blur-3xl transform translate-y-8 scale-95"
+              className="absolute inset-0 -z-10 rounded-xl bg-foreground/70 blur-2xl translate-y-8"
             />
             
             {/* Monitor Frame */}
             <div className="relative">
               {/* Monitor Screen */}
-              <div className="rounded-xl overflow-hidden border border-border bg-card shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25),0_30px_60px_-30px_rgba(0,0,0,0.3)]">
+              <div className="rounded-xl overflow-hidden border border-border bg-card relative">
                 {/* Browser Top Bar */}
                 <div className="bg-secondary/80 border-b border-border px-1.5 py-1 sm:px-3 sm:py-2 md:px-4 md:py-3 flex items-center gap-1 sm:gap-2 md:gap-3">
                   {/* Traffic Lights */}
