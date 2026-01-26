@@ -107,7 +107,7 @@ export default function BetaSignup() {
                   ))}
                 </ul>
 
-                <div className="p-6 rounded-2xl glass">
+                <div className="p-6 rounded-2xl bg-secondary/50 border border-border">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-purple via-brand-midblue to-brand-cyan flex items-center justify-center flex-shrink-0">
                       <Sparkles className="w-5 h-5 text-white" />
