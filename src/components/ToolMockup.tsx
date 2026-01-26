@@ -6,34 +6,43 @@ import { MobileMockup } from "./MobileMockup";
 export function ToolMockup() {
   const containerRef = useRef(null);
   
-  // Simple scroll-based animation - no scroll lock, animates as section enters viewport
+  // Scroll-lock style animation using extended scroll range
+  // The parent section provides scroll estate, this sticky container animates within it
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end center"]
+    offset: ["start end", "end start"]
   });
 
-  // Browser animation: smooth entrance as section scrolls into view
-  const browserRotateX = useTransform(scrollYProgress, [0, 0.6], [25, 0]);
-  const browserRotateY = useTransform(scrollYProgress, [0, 0.6], [-10, 0]);
-  const browserScale = useTransform(scrollYProgress, [0, 0.6], [0.9, 1]);
-  const browserOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  const browserY = useTransform(scrollYProgress, [0, 0.6], [40, 0]);
+  // === PHASE 1: Browser Entrance (0% - 40% scroll) ===
+  // Browser rotates in from a tilted perspective and settles into place
+  const browserRotateX = useTransform(scrollYProgress, [0, 0.25], [30, 0]);
+  const browserRotateY = useTransform(scrollYProgress, [0, 0.25], [-15, 0]);
+  const browserScale = useTransform(scrollYProgress, [0, 0.25], [0.85, 1]);
+  const browserOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
+  const browserY = useTransform(scrollYProgress, [0, 0.25], [60, 0]);
   
-  // Browser shadow
-  const shadowOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+  // Browser shadow intensifies as it settles
+  const browserShadowOpacity = useTransform(scrollYProgress, [0.1, 0.3], [0, 1]);
   
-  // Mobile mockup: fades in and slides up slightly after browser settles
-  const mobileOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
-  const mobileY = useTransform(scrollYProgress, [0.3, 0.7], [30, 0]);
-  const mobileScale = useTransform(scrollYProgress, [0.3, 0.7], [0.95, 1]);
+  // === PHASE 2: Mobile Entrance (30% - 60% scroll) ===
+  // Mobile starts below the viewport, rises up dramatically to overlap browser
+  const mobileOpacity = useTransform(scrollYProgress, [0.25, 0.4], [0, 1]);
+  const mobileY = useTransform(scrollYProgress, [0.25, 0.55], [120, 0]);
+  const mobileScale = useTransform(scrollYProgress, [0.25, 0.55], [0.8, 1]);
+  const mobileRotateX = useTransform(scrollYProgress, [0.25, 0.55], [15, 0]);
+  
+  // === PHASE 3: Convergence & Depth (50% - 70% scroll) ===
+  // Mobile comes forward in Z-space, shadow deepens for layered effect
+  const mobileZ = useTransform(scrollYProgress, [0.4, 0.6], [0, 40]);
+  const mobileShadowIntensity = useTransform(scrollYProgress, [0.4, 0.65], [0.3, 1]);
 
   return (
     <div 
       ref={containerRef}
-      className="relative"
+      className="relative min-h-[140vh] md:min-h-[160vh]"
     >
-      {/* Simple flex container - no sticky positioning needed */}
-      <div className="flex flex-col items-center">
+      {/* Sticky container - pins mockups during scroll animation */}
+      <div className="sticky top-[10vh] md:top-[15vh] flex flex-col items-center pb-20 md:pb-28">
         {/* Browser Mockup Container */}
         <div className="max-w-5xl mx-auto w-full px-4 relative z-0">
           <div 
@@ -50,9 +59,9 @@ export function ToolMockup() {
                 transformStyle: "preserve-3d" 
               }}
             >
-              {/* Static Shadow Layer */}
+              {/* Dynamic Shadow Layer */}
               <motion.div
-                style={{ opacity: shadowOpacity }}
+                style={{ opacity: browserShadowOpacity }}
                 className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-b from-primary/20 to-accent/10 blur-3xl transform translate-y-8 scale-95"
               />
               
@@ -94,15 +103,27 @@ export function ToolMockup() {
           </div>
         </div>
 
-        {/* Mobile Mockup - positioned to overlap browser with higher z-index */}
+        {/* Mobile Mockup - rises from below and overlaps browser */}
         <motion.div 
-          className="w-[120px] sm:w-[160px] lg:w-[200px] mx-auto relative z-20 -mt-16 sm:-mt-20 lg:-mt-24"
+          className="w-[100px] sm:w-[140px] md:w-[160px] lg:w-[200px] mx-auto relative z-20 -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24"
           style={{
             opacity: mobileOpacity,
             y: mobileY,
             scale: mobileScale,
+            rotateX: mobileRotateX,
+            z: mobileZ,
+            transformStyle: "preserve-3d",
+            perspective: "1200px",
           }}
         >
+          {/* Dynamic depth shadow - intensifies as phone comes forward */}
+          <motion.div 
+            className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/40 blur-2xl"
+            style={{
+              opacity: mobileShadowIntensity,
+              transform: "translateY(20px) scale(0.9)",
+            }}
+          />
           <MobileMockup />
         </motion.div>
       </div>
