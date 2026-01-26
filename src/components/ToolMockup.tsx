@@ -13,28 +13,30 @@ export function ToolMockup() {
     offset: ["start end", "end start"]
   });
 
-  // === PHASE 1: Browser Entrance (0% - 40% scroll) ===
-  // Browser rotates in from a tilted perspective and settles into place
-  const browserRotateX = useTransform(scrollYProgress, [0, 0.25], [30, 0]);
-  const browserRotateY = useTransform(scrollYProgress, [0, 0.25], [-15, 0]);
-  const browserScale = useTransform(scrollYProgress, [0, 0.25], [0.85, 1]);
+  // === PHASE 1: Browser Entrance (0% - 35% scroll) ===
+  // Browser rotates in from a tilted perspective and settles completely before mobile begins
+  const browserRotateX = useTransform(scrollYProgress, [0, 0.35], [30, 0]);
+  const browserRotateY = useTransform(scrollYProgress, [0, 0.35], [-15, 0]);
+  const browserScale = useTransform(scrollYProgress, [0, 0.35], [0.85, 1]);
   const browserOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
-  const browserY = useTransform(scrollYProgress, [0, 0.25], [60, 0]);
+  const browserY = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
   
   // Browser shadow intensifies as it settles
-  const browserShadowOpacity = useTransform(scrollYProgress, [0.1, 0.3], [0, 1]);
+  const browserShadowOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]);
   
-  // === PHASE 2: Mobile Entrance (30% - 60% scroll) ===
-  // Mobile starts below the viewport, rises up dramatically to overlap browser
-  const mobileOpacity = useTransform(scrollYProgress, [0.25, 0.4], [0, 1]);
-  const mobileY = useTransform(scrollYProgress, [0.25, 0.55], [120, 0]);
-  const mobileScale = useTransform(scrollYProgress, [0.25, 0.55], [0.8, 1]);
-  const mobileRotateX = useTransform(scrollYProgress, [0.25, 0.55], [15, 0]);
+  // === PHASE 2: Mobile Entrance (40% - 70% scroll) ===
+  // Mobile starts after browser is fully settled, rises up dramatically to overlap
+  const mobileOpacity = useTransform(scrollYProgress, [0.4, 0.5], [0, 1]);
+  const mobileY = useTransform(scrollYProgress, [0.4, 0.7], [100, 0]);
+  const mobileScale = useTransform(scrollYProgress, [0.4, 0.7], [0.85, 1]);
+  const mobileRotateX = useTransform(scrollYProgress, [0.4, 0.7], [12, 0]);
   
-  // === PHASE 3: Convergence & Depth (50% - 70% scroll) ===
-  // Mobile comes forward in Z-space, shadow deepens for layered effect
-  const mobileZ = useTransform(scrollYProgress, [0.4, 0.6], [0, 40]);
-  const mobileShadowIntensity = useTransform(scrollYProgress, [0.4, 0.65], [0.3, 1]);
+  // === PHASE 3: Convergence & Depth (55% - 80% scroll) ===
+  // Mobile comes forward in Z-space, shadow deepens and rotates for layered 3D effect
+  const mobileZ = useTransform(scrollYProgress, [0.55, 0.75], [0, 50]);
+  const mobileShadowIntensity = useTransform(scrollYProgress, [0.5, 0.8], [0.2, 1]);
+  const mobileShadowScale = useTransform(scrollYProgress, [0.4, 0.8], [0.85, 0.92]);
+  const mobileShadowRotate = useTransform(scrollYProgress, [0.4, 0.8], [3, 0]);
 
   return (
     <div 
@@ -116,12 +118,14 @@ export function ToolMockup() {
             perspective: "1200px",
           }}
         >
-          {/* Dynamic depth shadow - intensifies as phone comes forward */}
+          {/* Dynamic depth shadow - intensifies and subtly rotates as phone comes forward */}
           <motion.div 
             className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/40 blur-2xl"
             style={{
               opacity: mobileShadowIntensity,
-              transform: "translateY(20px) scale(0.9)",
+              scale: mobileShadowScale,
+              rotateZ: mobileShadowRotate,
+              y: 20,
             }}
           />
           <MobileMockup />
