@@ -41,7 +41,7 @@ export function ToolMockup() {
   return (
     <div 
       ref={containerRef}
-      className="relative min-h-[80vh] md:min-h-[90vh]"
+      className="relative min-h-[120vh] md:min-h-[140vh]"
     >
       {/* Sticky container - pins mockups during scroll animation */}
       <div className="sticky top-[10vh] md:top-[15vh] flex flex-col items-center">
