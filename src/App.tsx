@@ -9,6 +9,7 @@ import BetaSignup from "./pages/BetaSignup";
 import Feedback from "./pages/Feedback";
 import Partnerships from "./pages/Partnerships";
 import Contact from "./pages/Contact";
+import EmailForge from "./pages/EmailForge";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/partnerships" element={<Partnerships />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/email-forge" element={<EmailForge />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
