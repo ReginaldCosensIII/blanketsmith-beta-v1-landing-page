@@ -64,14 +64,16 @@ ${htmlContent}
     }
   };
 
+  const isMobile = viewportSize === "mobile";
+
   const renderTemplate = () => {
     switch (selectedTemplate) {
       case "beta-welcome":
-        return <BetaWelcomeEmail isDarkMode={isDarkMode} />;
+        return <BetaWelcomeEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
       case "partnership":
-        return <PartnershipEmail isDarkMode={isDarkMode} />;
+        return <PartnershipEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
       case "feedback":
-        return <FeedbackEmail isDarkMode={isDarkMode} />;
+        return <FeedbackEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
     }
   };
 
