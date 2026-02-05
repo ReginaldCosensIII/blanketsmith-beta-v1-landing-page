@@ -10,9 +10,10 @@ import {
   BetaWelcomeEmail,
   PartnershipEmail,
   FeedbackEmail,
+  VerificationSuccessEmail,
 } from "@/components/email/EmailTemplates";
 
-type EmailTemplate = "beta-welcome" | "partnership" | "feedback";
+type EmailTemplate = "beta-welcome" | "partnership" | "feedback" | "verification-success";
 type ViewportSize = "mobile" | "desktop";
 
 export default function EmailForge() {
@@ -74,6 +75,8 @@ ${htmlContent}
         return <PartnershipEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
       case "feedback":
         return <FeedbackEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
+      case "verification-success":
+        return <VerificationSuccessEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
     }
   };
 
@@ -81,6 +84,7 @@ ${htmlContent}
     "beta-welcome": "Beta Welcome",
     partnership: "Partnership",
     feedback: "Feedback",
+    "verification-success": "Verified",
   };
 
   return (

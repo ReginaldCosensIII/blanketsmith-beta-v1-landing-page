@@ -1,5 +1,5 @@
-import logoHorizontal from "@/assets/logo-horizontal.svg";
-import horizontalLogoWhite from "@/assets/horizontal-logo-white.svg";
+import verticalLogoSlogan from "@/assets/vertical-logo-slogan.svg";
+import verticalLogoSloganWhite from "@/assets/vertical-logo-slogan-white.svg";
 import faviconBadge from "@/assets/favicon-badge.svg";
 
 interface EmailFooterProps {
@@ -24,7 +24,7 @@ export function EmailFooter({ isDarkMode }: EmailFooterProps) {
   const textColor = isDarkMode ? "#94a3b8" : "#64748b";
   const linkColor = isDarkMode ? "#0ec8fc" : "#7c2ae8";
   const borderColor = isDarkMode ? "#1e293b" : "#e2e8f0";
-  const logo = isDarkMode ? horizontalLogoWhite : logoHorizontal;
+  const logo = isDarkMode ? verticalLogoSloganWhite : verticalLogoSlogan;
 
   return (
     <table
@@ -36,18 +36,18 @@ export function EmailFooter({ isDarkMode }: EmailFooterProps) {
       <tbody>
         <tr>
           <td style={{ padding: "32px 20px 24px" }}>
-            {/* Logo aligned left */}
+            {/* Logo centered */}
             <table width="100%" cellPadding="0" cellSpacing="0" style={{ marginBottom: "24px" }}>
               <tbody>
                 <tr>
-                  <td align="left">
+                  <td align="center">
                     <img
                       src={logo}
                       alt="BlanketSmith"
-                      width="140"
+                      width="160"
                       style={{
                         display: "block",
-                        maxWidth: "140px",
+                        maxWidth: "160px",
                         height: "auto",
                       }}
                     />
