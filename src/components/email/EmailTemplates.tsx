@@ -21,8 +21,8 @@ function SectionHeader({
 }) {
   const textColor = isDarkMode ? "#e2e8f0" : "#1e293b";
   const glowColor = isDarkMode 
-    ? "radial-gradient(ellipse 280px 140px at 50% 50%, rgba(124, 42, 232, 0.35) 0%, rgba(14, 200, 252, 0.25) 40%, transparent 70%)"
-    : "radial-gradient(ellipse 280px 140px at 50% 50%, rgba(124, 42, 232, 0.18) 0%, rgba(14, 200, 252, 0.12) 40%, transparent 70%)";
+    ? "radial-gradient(ellipse 100% 100px at 50% 50%, rgba(124, 42, 232, 0.35) 0%, rgba(14, 200, 252, 0.25) 50%, transparent 85%)"
+    : "radial-gradient(ellipse 100% 100px at 50% 50%, rgba(124, 42, 232, 0.18) 0%, rgba(14, 200, 252, 0.12) 50%, transparent 85%)";
 
   return (
     <div
@@ -40,8 +40,8 @@ function SectionHeader({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "350px",
-          height: "120px",
+          width: "100%",
+          height: "100%",
           background: glowColor,
           pointerEvents: "none",
           zIndex: 0,
