@@ -20,47 +20,25 @@ function SectionHeader({
   align?: "left" | "center";
 }) {
   const textColor = isDarkMode ? "#e2e8f0" : "#1e293b";
-  const glowColor = isDarkMode 
-    ? "radial-gradient(ellipse 100% 100px at 50% 50%, rgba(124, 42, 232, 0.35) 0%, rgba(14, 200, 252, 0.25) 50%, transparent 85%)"
-    : "radial-gradient(ellipse 100% 100px at 50% 50%, rgba(124, 42, 232, 0.18) 0%, rgba(14, 200, 252, 0.12) 50%, transparent 85%)";
+  const textShadow = isDarkMode 
+    ? "0 0 30px rgba(124, 42, 232, 0.5), 0 0 60px rgba(14, 200, 252, 0.3)"
+    : "0 0 20px rgba(124, 42, 232, 0.25), 0 0 40px rgba(14, 200, 252, 0.15)";
 
   return (
-    <div
+    <h1
       style={{
-        position: "relative",
+        margin: "0 0 16px",
+        padding: "16px 0",
+        fontSize: "28px",
+        fontWeight: "700",
+        fontFamily: "Poppins, system-ui, sans-serif",
+        color: textColor,
         textAlign: align,
-        paddingTop: "24px",
-        paddingBottom: "24px",
-        marginBottom: "16px",
+        textShadow: textShadow,
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "100%",
-          height: "100%",
-          background: glowColor,
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
-      <h1
-        style={{
-          position: "relative",
-          margin: "0",
-          fontSize: "28px",
-          fontWeight: "700",
-          fontFamily: "Poppins, system-ui, sans-serif",
-          color: textColor,
-          zIndex: 1,
-        }}
-      >
-        {children}
-      </h1>
-    </div>
+      {children}
+    </h1>
   );
 }
 
