@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Copy, Check, Monitor, Smartphone, Moon, Sun } from "lucide-react";
@@ -12,24 +12,29 @@ import {
   FeedbackEmail,
   VerificationSuccessEmail,
 } from "@/components/email/EmailTemplates";
+import {
+  BetaWelcomeEmailB2,
+  PartnershipEmailB2,
+  FeedbackEmailB2,
+  VerificationSuccessEmailB2,
+} from "@/components/email/batch2/EmailTemplatesB2";
 
 type EmailTemplate = "beta-welcome" | "partnership" | "feedback" | "verification-success";
 type ViewportSize = "mobile" | "desktop";
+type DesignBatch = "cinematic" | "editorial";
 
 export default function EmailForge() {
   const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate>("beta-welcome");
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [viewportSize, setViewportSize] = useState<ViewportSize>("desktop");
+  const [designBatch, setDesignBatch] = useState<DesignBatch>("cinematic");
   const [copied, setCopied] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const handleCopyHTML = async () => {
     if (!previewRef.current) return;
 
-    // Get the HTML content
     const htmlContent = previewRef.current.innerHTML;
-
-    // Wrap in a complete HTML document structure
     const fullHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,6 +73,18 @@ ${htmlContent}
   const isMobile = viewportSize === "mobile";
 
   const renderTemplate = () => {
+    if (designBatch === "editorial") {
+      switch (selectedTemplate) {
+        case "beta-welcome":
+          return <BetaWelcomeEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
+        case "partnership":
+          return <PartnershipEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
+        case "feedback":
+          return <FeedbackEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
+        case "verification-success":
+          return <VerificationSuccessEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
+      }
+    }
     switch (selectedTemplate) {
       case "beta-welcome":
         return <BetaWelcomeEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
@@ -87,17 +104,16 @@ ${htmlContent}
     "verification-success": "Verified",
   };
 
+  const batchLabel = designBatch === "cinematic" ? "Cinematic" : "Editorial";
+
   return (
     <Layout>
       <div className="min-h-screen bg-background">
-        {/* Hero Header - Mini version matching the cinematic style */}
+        {/* Hero Header */}
         <section className="relative overflow-hidden py-12 md:py-16">
-          {/* Background orbs */}
           <div className="absolute inset-0 -z-10">
             <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[400px] md:h-[400px] opacity-20 blur-3xl rounded-full gradient-bg transform translate-x-[30%] -translate-y-[30%]" />
             <div className="absolute bottom-0 left-0 w-[250px] h-[250px] md:w-[350px] md:h-[350px] opacity-20 blur-3xl rounded-full accent-orb transform -translate-x-[30%] translate-y-[30%]" />
-            
-            {/* Graph paper texture */}
             <div
               className="absolute inset-0 opacity-[0.03]"
               style={{
@@ -127,20 +143,46 @@ ${htmlContent}
           <div className="max-w-6xl mx-auto">
             {/* Control Bar */}
             <div className="glass rounded-xl p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
-              {/* Template Selector */}
-              <Tabs
-                value={selectedTemplate}
-                onValueChange={(v) => setSelectedTemplate(v as EmailTemplate)}
-                className="w-auto"
-              >
-                <TabsList className="bg-secondary/50">
-                  {Object.entries(templateLabels).map(([key, label]) => (
-                    <TabsTrigger key={key} value={key} className="text-sm">
-                      {label}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
+              <div className="flex flex-wrap items-center gap-4">
+                {/* Design Batch Selector */}
+                <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+                  <button
+                    onClick={() => setDesignBatch("cinematic")}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      designBatch === "cinematic"
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    Cinematic
+                  </button>
+                  <button
+                    onClick={() => setDesignBatch("editorial")}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      designBatch === "editorial"
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    Editorial
+                  </button>
+                </div>
+
+                {/* Template Selector */}
+                <Tabs
+                  value={selectedTemplate}
+                  onValueChange={(v) => setSelectedTemplate(v as EmailTemplate)}
+                  className="w-auto"
+                >
+                  <TabsList className="bg-secondary/50">
+                    {Object.entries(templateLabels).map(([key, label]) => (
+                      <TabsTrigger key={key} value={key} className="text-sm">
+                        {label}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs>
+              </div>
 
               {/* Viewport & Theme Controls */}
               <div className="flex items-center gap-6">
@@ -228,9 +270,7 @@ ${htmlContent}
                 <div
                   ref={previewRef}
                   className="overflow-auto"
-                  style={{
-                    maxHeight: "70vh",
-                  }}
+                  style={{ maxHeight: "70vh" }}
                 >
                   {renderTemplate()}
                 </div>
@@ -244,7 +284,7 @@ ${htmlContent}
                 <span className="font-medium text-foreground">
                   {templateLabels[selectedTemplate]}
                 </span>{" "}
-                · {isDarkMode ? "Dark" : "Light"} Mode ·{" "}
+                · {batchLabel} · {isDarkMode ? "Dark" : "Light"} Mode ·{" "}
                 {viewportSize === "mobile" ? "375px" : "600px"} Width
               </p>
             </div>
