@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Copy, Check, Monitor, Smartphone, Moon, Sun } from "lucide-react";
@@ -13,15 +12,47 @@ import {
   VerificationSuccessEmail,
 } from "@/components/email/EmailTemplates";
 import {
+  PasswordResetEmail,
+  FirstPatternEmail,
+  BetaCredentialsEmail,
+  BetaKickOffEmail,
+} from "@/components/email/EmailTemplatesExtra";
+import {
   BetaWelcomeEmailB2,
   PartnershipEmailB2,
   FeedbackEmailB2,
   VerificationSuccessEmailB2,
 } from "@/components/email/batch2/EmailTemplatesB2";
+import {
+  PasswordResetEmailB2,
+  FirstPatternEmailB2,
+  BetaCredentialsEmailB2,
+  BetaKickOffEmailB2,
+} from "@/components/email/batch2/EmailTemplatesB2Extra";
 
-type EmailTemplate = "beta-welcome" | "partnership" | "feedback" | "verification-success";
+type EmailTemplate =
+  | "beta-welcome"
+  | "partnership"
+  | "feedback"
+  | "verification-success"
+  | "password-reset"
+  | "first-pattern"
+  | "beta-credentials"
+  | "beta-kickoff";
+
 type ViewportSize = "mobile" | "desktop";
 type DesignBatch = "cinematic" | "editorial";
+
+const templateLabels: Record<EmailTemplate, string> = {
+  "beta-welcome": "Beta Welcome",
+  partnership: "Partnership",
+  feedback: "Feedback",
+  "verification-success": "Verified",
+  "password-reset": "Password Reset",
+  "first-pattern": "First Pattern",
+  "beta-credentials": "Beta Creds",
+  "beta-kickoff": "Beta Kick-Off",
+};
 
 export default function EmailForge() {
   const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate>("beta-welcome");
@@ -83,6 +114,14 @@ ${htmlContent}
           return <FeedbackEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
         case "verification-success":
           return <VerificationSuccessEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
+        case "password-reset":
+          return <PasswordResetEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
+        case "first-pattern":
+          return <FirstPatternEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
+        case "beta-credentials":
+          return <BetaCredentialsEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
+        case "beta-kickoff":
+          return <BetaKickOffEmailB2 isDarkMode={isDarkMode} isMobile={isMobile} />;
       }
     }
     switch (selectedTemplate) {
@@ -94,14 +133,15 @@ ${htmlContent}
         return <FeedbackEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
       case "verification-success":
         return <VerificationSuccessEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
+      case "password-reset":
+        return <PasswordResetEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
+      case "first-pattern":
+        return <FirstPatternEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
+      case "beta-credentials":
+        return <BetaCredentialsEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
+      case "beta-kickoff":
+        return <BetaKickOffEmail isDarkMode={isDarkMode} isMobile={isMobile} />;
     }
-  };
-
-  const templateLabels = {
-    "beta-welcome": "Beta Welcome",
-    partnership: "Partnership",
-    feedback: "Feedback",
-    "verification-success": "Verified",
   };
 
   const batchLabel = designBatch === "cinematic" ? "Cinematic" : "Editorial";
@@ -132,7 +172,7 @@ ${htmlContent}
               <span className="gradient-text">Forge</span>
             </h1>
             <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-              Craft beautiful, brand-aligned email templates. Preview in light or dark mode, 
+              Craft beautiful, brand-aligned email templates. Preview in light or dark mode,
               then export table-based HTML with fully inlined CSS.
             </p>
           </div>
@@ -142,9 +182,9 @@ ${htmlContent}
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 pb-16">
           <div className="max-w-6xl mx-auto">
             {/* Control Bar */}
-            <div className="glass rounded-xl p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-4">
-                {/* Design Batch Selector */}
+            <div className="glass rounded-xl p-4 mb-6 flex flex-col gap-4">
+              {/* Top row: batch toggle + viewport/theme controls */}
+              <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
                   <button
                     onClick={() => setDesignBatch("cinematic")}
@@ -168,80 +208,81 @@ ${htmlContent}
                   </button>
                 </div>
 
-                {/* Template Selector */}
-                <Tabs
-                  value={selectedTemplate}
-                  onValueChange={(v) => setSelectedTemplate(v as EmailTemplate)}
-                  className="w-auto"
-                >
-                  <TabsList className="bg-secondary/50">
-                    {Object.entries(templateLabels).map(([key, label]) => (
-                      <TabsTrigger key={key} value={key} className="text-sm">
-                        {label}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </Tabs>
+                {/* Viewport & Theme Controls */}
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setViewportSize("mobile")}
+                      className={`p-2 rounded-lg transition-colors ${
+                        viewportSize === "mobile"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary/50 text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Smartphone className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewportSize("desktop")}
+                      className={`p-2 rounded-lg transition-colors ${
+                        viewportSize === "desktop"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary/50 text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Monitor className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Sun className="w-4 h-4 text-muted-foreground" />
+                    <Switch
+                      id="dark-mode"
+                      checked={isDarkMode}
+                      onCheckedChange={setIsDarkMode}
+                    />
+                    <Moon className="w-4 h-4 text-muted-foreground" />
+                    <Label htmlFor="dark-mode" className="text-sm text-muted-foreground sr-only">
+                      Dark Mode
+                    </Label>
+                  </div>
+
+                  <Button
+                    variant="gradient"
+                    onClick={handleCopyHTML}
+                    className="min-w-[140px]"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4" />
+                        Copy HTML
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
 
-              {/* Viewport & Theme Controls */}
-              <div className="flex items-center gap-6">
-                {/* Viewport Toggle */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setViewportSize("mobile")}
-                    className={`p-2 rounded-lg transition-colors ${
-                      viewportSize === "mobile"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary/50 text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    <Smartphone className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => setViewportSize("desktop")}
-                    className={`p-2 rounded-lg transition-colors ${
-                      viewportSize === "desktop"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary/50 text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    <Monitor className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Dark Mode Toggle */}
-                <div className="flex items-center gap-2">
-                  <Sun className="w-4 h-4 text-muted-foreground" />
-                  <Switch
-                    id="dark-mode"
-                    checked={isDarkMode}
-                    onCheckedChange={setIsDarkMode}
-                  />
-                  <Moon className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="dark-mode" className="text-sm text-muted-foreground sr-only">
-                    Dark Mode
-                  </Label>
-                </div>
-
-                {/* Copy HTML Button */}
-                <Button
-                  variant="gradient"
-                  onClick={handleCopyHTML}
-                  className="min-w-[140px]"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      Copied!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4" />
-                      Copy HTML
-                    </>
-                  )}
-                </Button>
+              {/* Template selector row */}
+              <div className="flex flex-wrap gap-2">
+                {(Object.entries(templateLabels) as [EmailTemplate, string][]).map(
+                  ([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => setSelectedTemplate(key)}
+                      className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                        selectedTemplate === key
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary/50 text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  )
+                )}
               </div>
             </div>
 
