@@ -5,27 +5,32 @@ import {
   Palette,
   Eye,
   Download,
+  Layers,
+  Repeat,
 } from "lucide-react";
 import betaUIScreenshot from "@/assets/beta-ui-screenshot.png";
 import { MobileMockup } from "./MobileMockup";
 
-const floatingIndicators = [
-  { icon: Grid3X3, label: "Precision Grids", side: "left" as const, top: "18%" },
-  { icon: Eye, label: "Live Preview", side: "left" as const, top: "48%" },
-  { icon: Palette, label: "Color Palettes", side: "right" as const, top: "22%" },
-  { icon: Download, label: "Export Ready", side: "right" as const, top: "52%" },
+const leftFeatures = [
+  { icon: Grid3X3, label: "Precision Grids", desc: "Pixel-perfect stitch grids that match your gauge exactly" },
+  { icon: Palette, label: "Color Palettes", desc: "Build palettes from yarn brands or custom hex colors" },
+  { icon: Layers, label: "Multi-Layer Patterns", desc: "Stack elements for complex colorwork designs" },
+];
+
+const rightFeatures = [
+  { icon: Eye, label: "Live Preview", desc: "See your blanket come to life as you design each row" },
+  { icon: Download, label: "Export Ready", desc: "Download as PDF, PNG, or printable chart formats" },
+  { icon: Repeat, label: "Pattern Repeat", desc: "Auto-tile motifs seamlessly across your project" },
 ];
 
 export function ToolMockup() {
   const containerRef = useRef(null);
   
-  // Scroll-lock style animation using extended scroll range
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
 
-  // Spring config for smooth, polished motion
   const springConfig = { stiffness: 100, damping: 20, mass: 0.5 };
 
   // === PHASE 1: Browser Entrance (0% - 35% scroll) ===
@@ -35,7 +40,6 @@ export function ToolMockup() {
   const browserOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
   const browserY = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
   
-  // Browser shadow
   const browserShadowOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0.2, 1]);
   const browserShadowScale = useTransform(scrollYProgress, [0, 0.35], [0.88, 0.95]);
   const browserShadowRotate = useTransform(scrollYProgress, [0, 0.35], [-2, 0]);
@@ -57,47 +61,20 @@ export function ToolMockup() {
   const mobileShadowScale = useTransform(scrollYProgress, [0.4, 0.8], [0.85, 0.92]);
   const mobileShadowRotate = useTransform(scrollYProgress, [0.4, 0.8], [3, 0]);
 
-  // === PHASE 4: Floating Feature Indicators (65% - 90% scroll) ===
-  const indicatorOpacity = useTransform(scrollYProgress, [0.65, 0.78], [0, 1]);
-  const indicatorXLeft = useTransform(scrollYProgress, [0.65, 0.82], [-50, 0]);
-  const indicatorXRight = useTransform(scrollYProgress, [0.65, 0.82], [50, 0]);
-  const indicatorXLeftSpring = useSpring(indicatorXLeft, springConfig);
-  const indicatorXRightSpring = useSpring(indicatorXRight, springConfig);
+  // === PHASE 4: Flanking Feature Text (60% - 90% scroll) ===
+  const featureOpacity = useTransform(scrollYProgress, [0.6, 0.75], [0, 1]);
+  const leftXRaw = useTransform(scrollYProgress, [0.6, 0.8], [-60, 0]);
+  const rightXRaw = useTransform(scrollYProgress, [0.6, 0.8], [60, 0]);
+  const leftX = useSpring(leftXRaw, springConfig);
+  const rightX = useSpring(rightXRaw, springConfig);
 
   return (
     <div 
       ref={containerRef}
       className="relative min-h-[140vh] md:min-h-[180vh] lg:min-h-[190vh]"
     >
-      {/* Sticky container - pins mockups during scroll animation */}
+      {/* Sticky container */}
       <div className="sticky top-[8vh] md:top-[10vh] flex flex-col items-center relative">
-
-        {/* Floating Feature Indicators — lg+ only, absolutely positioned */}
-        <div className="hidden lg:block absolute inset-0 pointer-events-none z-30">
-          {floatingIndicators.map((indicator, i) => {
-            const isLeft = indicator.side === "left";
-            return (
-              <motion.div
-                key={indicator.label}
-                className={`absolute ${isLeft ? "left-[1%] xl:left-[3%] 2xl:left-[6%]" : "right-[1%] xl:right-[3%] 2xl:right-[6%]"}`}
-                style={{
-                  top: indicator.top,
-                  opacity: indicatorOpacity,
-                  x: isLeft ? indicatorXLeftSpring : indicatorXRightSpring,
-                }}
-              >
-                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/90 backdrop-blur-sm border border-border shadow-soft">
-                  <div className="w-7 h-7 rounded-md bg-brand-midblue/10 border border-brand-purple/20 flex items-center justify-center">
-                    <indicator.icon className="w-3.5 h-3.5 text-brand-midblue" strokeWidth={1.5} />
-                  </div>
-                  <span className="font-display text-xs font-semibold text-foreground whitespace-nowrap">
-                    {indicator.label}
-                  </span>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
 
         {/* Browser Mockup Container */}
         <div className="max-w-5xl mx-auto w-full px-4 relative z-0">
@@ -129,21 +106,16 @@ export function ToolMockup() {
               <div className="rounded-xl overflow-hidden border border-border bg-card relative">
                 {/* Browser Top Bar */}
                 <div className="bg-secondary/80 border-b border-border px-1 py-0.5 sm:px-3 sm:py-2 md:px-4 md:py-3 flex items-center gap-0.5 sm:gap-2 md:gap-3 relative z-10">
-                  {/* Traffic Lights */}
                   <div className="flex items-center gap-[2px] sm:gap-1.5 md:gap-2">
                     <div className="w-1 h-1 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-red-400/80" />
                     <div className="w-1 h-1 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-400/80" />
                     <div className="w-1 h-1 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-green-400/80" />
                   </div>
-                  
-                  {/* URL Bar */}
                   <div className="flex-1 max-w-md mx-auto">
                     <div className="bg-background/60 rounded px-1 py-[2px] sm:px-3 sm:py-1 md:px-4 md:py-1.5 text-[6px] sm:text-xs md:text-sm text-muted-foreground text-center border border-border/50">
                       app.blanketsmith.com
                     </div>
                   </div>
-                  
-                  {/* Spacer for symmetry */}
                   <div className="w-3 sm:w-10 md:w-14" />
                 </div>
 
@@ -154,8 +126,6 @@ export function ToolMockup() {
                     alt="BlanketSmith Pattern Tool Interface" 
                     className="w-full h-auto block"
                   />
-                  
-                  {/* Subtle gradient overlay at bottom */}
                   <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-card/50 to-transparent pointer-events-none" />
                 </div>
               </div>
@@ -163,32 +133,103 @@ export function ToolMockup() {
           </div>
         </div>
 
-        {/* Mobile Mockup - rises from below and overlaps browser */}
-        <motion.div 
-          className="w-[100px] sm:w-[140px] md:w-[160px] lg:w-[200px] mx-auto relative z-20 -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24"
-          style={{
-            opacity: mobileOpacity,
-            y: mobileY,
-            scale: mobileScale,
-            rotateX: mobileRotateX,
-            z: mobileZ,
-            transformStyle: "preserve-3d",
-            perspective: "1200px",
-          }}
-        >
-          {/* Dynamic depth shadow */}
+        {/* Mobile + Flanking Features Layout */}
+        <div className="w-full max-w-5xl mx-auto px-4 relative z-20 -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24">
+          <div className="flex items-start justify-center gap-4 md:gap-6 lg:gap-10">
+            
+            {/* Left Feature Column — md+ only */}
+            <motion.div 
+              className="hidden md:flex flex-col gap-4 lg:gap-5 flex-1 max-w-[260px] pt-8 lg:pt-12"
+              style={{ opacity: featureOpacity, x: leftX }}
+            >
+              {leftFeatures.map((f, i) => (
+                <FeatureBlurb key={f.label} icon={f.icon} label={f.label} desc={f.desc} index={i} />
+              ))}
+            </motion.div>
+
+            {/* Mobile Mockup - center */}
+            <motion.div 
+              className="w-[100px] sm:w-[140px] md:w-[160px] lg:w-[200px] shrink-0"
+              style={{
+                opacity: mobileOpacity,
+                y: mobileY,
+                scale: mobileScale,
+                rotateX: mobileRotateX,
+                z: mobileZ,
+                transformStyle: "preserve-3d",
+                perspective: "1200px",
+              }}
+            >
+              <motion.div 
+                className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/50 blur-2xl"
+                style={{
+                  opacity: mobileShadowIntensity,
+                  scale: mobileShadowScale,
+                  rotateZ: mobileShadowRotate,
+                  y: 20,
+                }}
+              />
+              <MobileMockup />
+            </motion.div>
+
+            {/* Right Feature Column — md+ only */}
+            <motion.div 
+              className="hidden md:flex flex-col gap-4 lg:gap-5 flex-1 max-w-[260px] pt-8 lg:pt-12"
+              style={{ opacity: featureOpacity, x: rightX }}
+            >
+              {rightFeatures.map((f, i) => (
+                <FeatureBlurb key={f.label} icon={f.icon} label={f.label} desc={f.desc} index={i} />
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Mobile Feature Strip — below mockup on small screens */}
           <motion.div 
-            className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/50 blur-2xl"
-            style={{
-              opacity: mobileShadowIntensity,
-              scale: mobileShadowScale,
-              rotateZ: mobileShadowRotate,
-              y: 20,
-            }}
-          />
-          <MobileMockup />
-        </motion.div>
+            className="md:hidden mt-6 grid grid-cols-2 gap-3"
+            style={{ opacity: featureOpacity }}
+          >
+            {[...leftFeatures, ...rightFeatures].map((f, i) => (
+              <FeatureBlurb key={f.label} icon={f.icon} label={f.label} desc={f.desc} index={i} compact />
+            ))}
+          </motion.div>
+        </div>
       </div>
     </div>
+  );
+}
+
+function FeatureBlurb({ 
+  icon: Icon, 
+  label, 
+  desc, 
+  index, 
+  compact = false 
+}: { 
+  icon: React.ElementType; 
+  label: string; 
+  desc: string; 
+  index: number; 
+  compact?: boolean;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ delay: index * 0.08, duration: 0.4 }}
+      className={compact ? "flex items-start gap-2" : "flex items-start gap-3"}
+    >
+      <div className={`${compact ? "w-7 h-7" : "w-8 h-8 lg:w-9 lg:h-9"} rounded-lg bg-brand-midblue/10 border border-brand-purple/20 flex items-center justify-center shrink-0`}>
+        <Icon className={`${compact ? "w-3.5 h-3.5" : "w-4 h-4"} text-brand-midblue`} strokeWidth={1.5} />
+      </div>
+      <div className="min-w-0">
+        <h4 className={`font-display ${compact ? "text-xs" : "text-sm lg:text-base"} font-semibold text-foreground leading-tight`}>
+          {label}
+        </h4>
+        <p className={`font-sans ${compact ? "text-[10px] leading-snug" : "text-xs lg:text-sm leading-relaxed"} text-muted-foreground mt-0.5`}>
+          {desc}
+        </p>
+      </div>
+    </motion.div>
   );
 }
