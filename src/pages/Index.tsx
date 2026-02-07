@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
-import { ToolMockup } from "@/components/ToolMockup";
 import { FeatureTourMockup } from "@/components/FeatureTourMockup";
 import { HeroSection } from "@/components/hero/HeroSection";
+import { WhatIsBlanketSmithSection } from "@/components/sections/WhatIsBlanketSmithSection";
 import communityCrafting from "@/assets/community-crafting.jpg";
 
 import {
@@ -76,31 +76,7 @@ export default function Index() {
       <HeroSection />
 
       {/* What is BlanketSmith? Section */}
-      <section className="py-20 md:py-28 bg-secondary/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-6">
-              What is BlanketSmith?
-            </h2>
-            <p className="font-sans text-muted-foreground text-lg leading-relaxed mb-6">
-              BlanketSmith is a browser-based pattern generation tool built specifically for 
-              crocheters and knitters. Whether you're designing your first granny square or 
-              perfecting an intricate colorwork blanket, our tool transforms your creative 
-              vision into precise, ready-to-follow patterns.
-            </p>
-            <p className="font-sans text-muted-foreground text-lg leading-relaxed">
-              No more hand-drawing grids or wrestling with spreadsheets. BlanketSmith brings 
-              pattern creation into the modern era—with an intuitive interface, instant 
-              previews, and export options that work for your workflow.
-            </p>
-          </div>
-          
-          {/* Tool Mockup */}
-          <div className="mt-12 md:mt-16">
-            <ToolMockup />
-          </div>
-        </div>
-      </section>
+      <WhatIsBlanketSmithSection />
 
       {/* Feature Highlights */}
       <section className="py-20 md:py-28">

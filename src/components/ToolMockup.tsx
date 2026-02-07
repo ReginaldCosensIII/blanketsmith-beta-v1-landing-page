@@ -1,13 +1,25 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import {
+  Grid3X3,
+  Palette,
+  Eye,
+  Download,
+} from "lucide-react";
 import betaUIScreenshot from "@/assets/beta-ui-screenshot.png";
 import { MobileMockup } from "./MobileMockup";
+
+const floatingIndicators = [
+  { icon: Grid3X3, label: "Precision Grids", side: "left" as const, top: "18%" },
+  { icon: Eye, label: "Live Preview", side: "left" as const, top: "48%" },
+  { icon: Palette, label: "Color Palettes", side: "right" as const, top: "22%" },
+  { icon: Download, label: "Export Ready", side: "right" as const, top: "52%" },
+];
 
 export function ToolMockup() {
   const containerRef = useRef(null);
   
   // Scroll-lock style animation using extended scroll range
-  // The parent section provides scroll estate, this sticky container animates within it
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -17,45 +29,76 @@ export function ToolMockup() {
   const springConfig = { stiffness: 100, damping: 20, mass: 0.5 };
 
   // === PHASE 1: Browser Entrance (0% - 35% scroll) ===
-  // Browser rotates in from a tilted perspective and settles completely before mobile begins
   const browserRotateX = useTransform(scrollYProgress, [0, 0.35], [30, 0]);
   const browserRotateY = useTransform(scrollYProgress, [0, 0.35], [-15, 0]);
   const browserScale = useTransform(scrollYProgress, [0, 0.35], [0.85, 1]);
   const browserOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
   const browserY = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
   
-  // Browser shadow - intensifies, scales, and rotates as it settles (matching mobile behavior)
+  // Browser shadow
   const browserShadowOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0.2, 1]);
   const browserShadowScale = useTransform(scrollYProgress, [0, 0.35], [0.88, 0.95]);
   const browserShadowRotate = useTransform(scrollYProgress, [0, 0.35], [-2, 0]);
   
   // === PHASE 2: Mobile Entrance (40% - 70% scroll) ===
-  // Mobile starts after browser is fully settled, rises up dramatically to overlap
   const mobileOpacity = useTransform(scrollYProgress, [0.4, 0.5], [0, 1]);
   const mobileYRaw = useTransform(scrollYProgress, [0.4, 0.7], [100, 0]);
   const mobileScaleRaw = useTransform(scrollYProgress, [0.4, 0.7], [0.85, 1]);
   const mobileRotateXRaw = useTransform(scrollYProgress, [0.4, 0.7], [12, 0]);
   
-  // Apply spring physics to mobile entrance for bouncy, polished feel
   const mobileY = useSpring(mobileYRaw, springConfig);
   const mobileScale = useSpring(mobileScaleRaw, springConfig);
   const mobileRotateX = useSpring(mobileRotateXRaw, springConfig);
   
   // === PHASE 3: Convergence & Depth (55% - 80% scroll) ===
-  // Mobile comes forward in Z-space, shadow deepens and rotates for layered 3D effect
   const mobileZRaw = useTransform(scrollYProgress, [0.55, 0.75], [0, 50]);
   const mobileZ = useSpring(mobileZRaw, springConfig);
   const mobileShadowIntensity = useTransform(scrollYProgress, [0.5, 0.8], [0.2, 1]);
   const mobileShadowScale = useTransform(scrollYProgress, [0.4, 0.8], [0.85, 0.92]);
   const mobileShadowRotate = useTransform(scrollYProgress, [0.4, 0.8], [3, 0]);
 
+  // === PHASE 4: Floating Feature Indicators (65% - 90% scroll) ===
+  const indicatorOpacity = useTransform(scrollYProgress, [0.65, 0.78], [0, 1]);
+  const indicatorXLeft = useTransform(scrollYProgress, [0.65, 0.82], [-50, 0]);
+  const indicatorXRight = useTransform(scrollYProgress, [0.65, 0.82], [50, 0]);
+  const indicatorXLeftSpring = useSpring(indicatorXLeft, springConfig);
+  const indicatorXRightSpring = useSpring(indicatorXRight, springConfig);
+
   return (
     <div 
       ref={containerRef}
-      className="relative min-h-[120vh] md:min-h-[140vh]"
+      className="relative min-h-[140vh] md:min-h-[180vh] lg:min-h-[190vh]"
     >
       {/* Sticky container - pins mockups during scroll animation */}
-      <div className="sticky top-[10vh] md:top-[15vh] flex flex-col items-center">
+      <div className="sticky top-[8vh] md:top-[10vh] flex flex-col items-center relative">
+
+        {/* Floating Feature Indicators — lg+ only, absolutely positioned */}
+        <div className="hidden lg:block absolute inset-0 pointer-events-none z-30">
+          {floatingIndicators.map((indicator, i) => {
+            const isLeft = indicator.side === "left";
+            return (
+              <motion.div
+                key={indicator.label}
+                className={`absolute ${isLeft ? "left-[1%] xl:left-[3%] 2xl:left-[6%]" : "right-[1%] xl:right-[3%] 2xl:right-[6%]"}`}
+                style={{
+                  top: indicator.top,
+                  opacity: indicatorOpacity,
+                  x: isLeft ? indicatorXLeftSpring : indicatorXRightSpring,
+                }}
+              >
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/90 backdrop-blur-sm border border-border shadow-soft">
+                  <div className="w-7 h-7 rounded-md bg-brand-midblue/10 border border-brand-purple/20 flex items-center justify-center">
+                    <indicator.icon className="w-3.5 h-3.5 text-brand-midblue" strokeWidth={1.5} />
+                  </div>
+                  <span className="font-display text-xs font-semibold text-foreground whitespace-nowrap">
+                    {indicator.label}
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
         {/* Browser Mockup Container */}
         <div className="max-w-5xl mx-auto w-full px-4 relative z-0">
           <div 
@@ -72,7 +115,7 @@ export function ToolMockup() {
                 transformStyle: "preserve-3d" 
               }}
             >
-              {/* Dynamic Shadow Layer - unified soft blur orb with scale/rotation */}
+              {/* Dynamic Shadow Layer */}
               <motion.div
                 style={{ 
                   opacity: browserShadowOpacity,
@@ -133,7 +176,7 @@ export function ToolMockup() {
             perspective: "1200px",
           }}
         >
-          {/* Dynamic depth shadow - unified soft blur orb matching browser style */}
+          {/* Dynamic depth shadow */}
           <motion.div 
             className="absolute inset-0 -z-10 rounded-[2rem] bg-foreground/50 blur-2xl"
             style={{
