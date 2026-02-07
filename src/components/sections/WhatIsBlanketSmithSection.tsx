@@ -1,60 +1,13 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ToolMockup } from "@/components/ToolMockup";
-import {
-  Grid3X3,
-  Palette,
-  Layers,
-  Download,
-  Eye,
-  Repeat,
-} from "lucide-react";
-
-const capabilities = [
-  {
-    icon: Grid3X3,
-    label: "Precision Grid System",
-    description: "Pixel-perfect stitch grids that match your gauge",
-  },
-  {
-    icon: Palette,
-    label: "Color Palette Builder",
-    description: "Build palettes from yarn brands or custom colors",
-  },
-  {
-    icon: Layers,
-    label: "Multi-Layer Patterns",
-    description: "Stack pattern elements for complex designs",
-  },
-  {
-    icon: Download,
-    label: "Export Ready",
-    description: "PDF, PNG, and printable format outputs",
-  },
-  {
-    icon: Eye,
-    label: "Live Preview",
-    description: "See changes instantly as you design",
-  },
-  {
-    icon: Repeat,
-    label: "Pattern Repeat",
-    description: "Auto-tile and repeat pattern motifs seamlessly",
-  },
-];
 
 export function WhatIsBlanketSmithSection() {
   const sectionRef = useRef(null);
-  const calloutRef = useRef(null);
 
   const { scrollYProgress: sectionProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
-  });
-
-  const { scrollYProgress: calloutProgress } = useScroll({
-    target: calloutRef,
-    offset: ["start end", "center center"],
   });
 
   // Parallax background shifts
@@ -135,68 +88,8 @@ export function WhatIsBlanketSmithSection() {
           <ToolMockup />
         </div>
 
-        {/* Capability Callouts - scroll-animated grid */}
-        <div ref={calloutRef} className="mt-8 md:mt-12">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 lg:gap-6 max-w-4xl mx-auto">
-            {capabilities.map((cap, index) => (
-              <CapabilityCard
-                key={cap.label}
-                icon={cap.icon}
-                label={cap.label}
-                description={cap.description}
-                progress={calloutProgress}
-                index={index}
-              />
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
 }
 
-function CapabilityCard({
-  icon: Icon,
-  label,
-  description,
-  progress,
-  index,
-}: {
-  icon: React.ElementType;
-  label: string;
-  description: string;
-  progress: ReturnType<typeof useScroll>["scrollYProgress"];
-  index: number;
-}) {
-  const start = index * 0.07;
-  const end = Math.min(start + 0.35, 1);
-  const isLeft = index % 2 === 0;
-
-  const opacity = useTransform(progress, [start, end], [0, 1]);
-  const y = useTransform(progress, [start, end], [30, 0]);
-  const x = useTransform(progress, [start, end], [isLeft ? -20 : 20, 0]);
-
-  return (
-    <motion.div
-      style={{ opacity, y, x }}
-      className="p-3 md:p-4 lg:p-5 rounded-xl bg-card/80 backdrop-blur-sm border border-border hover:border-brand-midblue/30 transition-colors duration-300 group"
-    >
-      <div className="flex items-start gap-3">
-        <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-brand-midblue/10 border border-brand-purple/20 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(92,174,255,0.3)] transition-all duration-300">
-          <Icon
-            className="w-4 h-4 md:w-5 md:h-5 text-brand-midblue"
-            strokeWidth={1.5}
-          />
-        </div>
-        <div className="min-w-0">
-          <h4 className="font-display text-sm md:text-base font-semibold text-foreground leading-tight">
-            {label}
-          </h4>
-          <p className="font-sans text-xs md:text-sm text-muted-foreground mt-0.5 leading-relaxed hidden sm:block">
-            {description}
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
