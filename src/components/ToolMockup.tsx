@@ -33,38 +33,38 @@ export function ToolMockup() {
 
   const springConfig = { stiffness: 100, damping: 20, mass: 0.5 };
 
-  // === PHASE 1: Browser Entrance (0% - 35% scroll) ===
-  const browserRotateX = useTransform(scrollYProgress, [0, 0.35], [30, 0]);
-  const browserRotateY = useTransform(scrollYProgress, [0, 0.35], [-15, 0]);
-  const browserScale = useTransform(scrollYProgress, [0, 0.35], [0.85, 1]);
-  const browserOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
-  const browserY = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
+  // === PHASE 1: Browser Entrance (0% - 25% scroll) ===
+  const browserRotateX = useTransform(scrollYProgress, [0, 0.25], [30, 0]);
+  const browserRotateY = useTransform(scrollYProgress, [0, 0.25], [-15, 0]);
+  const browserScale = useTransform(scrollYProgress, [0, 0.25], [0.85, 1]);
+  const browserOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+  const browserY = useTransform(scrollYProgress, [0, 0.25], [60, 0]);
   
-  const browserShadowOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0.2, 1]);
-  const browserShadowScale = useTransform(scrollYProgress, [0, 0.35], [0.88, 0.95]);
-  const browserShadowRotate = useTransform(scrollYProgress, [0, 0.35], [-2, 0]);
+  const browserShadowOpacity = useTransform(scrollYProgress, [0.1, 0.25], [0.2, 1]);
+  const browserShadowScale = useTransform(scrollYProgress, [0, 0.25], [0.88, 0.95]);
+  const browserShadowRotate = useTransform(scrollYProgress, [0, 0.25], [-2, 0]);
   
-  // === PHASE 2: Mobile Entrance (40% - 70% scroll) ===
-  const mobileOpacity = useTransform(scrollYProgress, [0.4, 0.5], [0, 1]);
-  const mobileYRaw = useTransform(scrollYProgress, [0.4, 0.7], [100, 0]);
-  const mobileScaleRaw = useTransform(scrollYProgress, [0.4, 0.7], [0.85, 1]);
-  const mobileRotateXRaw = useTransform(scrollYProgress, [0.4, 0.7], [12, 0]);
+  // === PHASE 2: Mobile Entrance (25% - 45% scroll) ===
+  const mobileOpacity = useTransform(scrollYProgress, [0.25, 0.35], [0, 1]);
+  const mobileYRaw = useTransform(scrollYProgress, [0.25, 0.45], [100, 0]);
+  const mobileScaleRaw = useTransform(scrollYProgress, [0.25, 0.45], [0.85, 1]);
+  const mobileRotateXRaw = useTransform(scrollYProgress, [0.25, 0.45], [12, 0]);
   
   const mobileY = useSpring(mobileYRaw, springConfig);
   const mobileScale = useSpring(mobileScaleRaw, springConfig);
   const mobileRotateX = useSpring(mobileRotateXRaw, springConfig);
   
-  // === PHASE 3: Convergence & Depth (55% - 80% scroll) ===
-  const mobileZRaw = useTransform(scrollYProgress, [0.55, 0.75], [0, 50]);
+  // === PHASE 3: Convergence & Depth (35% - 50% scroll) ===
+  const mobileZRaw = useTransform(scrollYProgress, [0.35, 0.5], [0, 50]);
   const mobileZ = useSpring(mobileZRaw, springConfig);
-  const mobileShadowIntensity = useTransform(scrollYProgress, [0.5, 0.8], [0.2, 1]);
-  const mobileShadowScale = useTransform(scrollYProgress, [0.4, 0.8], [0.85, 0.92]);
-  const mobileShadowRotate = useTransform(scrollYProgress, [0.4, 0.8], [3, 0]);
+  const mobileShadowIntensity = useTransform(scrollYProgress, [0.35, 0.5], [0.2, 1]);
+  const mobileShadowScale = useTransform(scrollYProgress, [0.25, 0.5], [0.85, 0.92]);
+  const mobileShadowRotate = useTransform(scrollYProgress, [0.25, 0.5], [3, 0]);
 
-  // === PHASE 4: Flanking Feature Text (60% - 90% scroll) ===
-  const featureOpacity = useTransform(scrollYProgress, [0.6, 0.75], [0, 1]);
-  const leftXRaw = useTransform(scrollYProgress, [0.6, 0.8], [-60, 0]);
-  const rightXRaw = useTransform(scrollYProgress, [0.6, 0.8], [60, 0]);
+  // === PHASE 4: Flanking Feature Text (45% - 60% scroll) ===
+  const featureOpacity = useTransform(scrollYProgress, [0.45, 0.55], [0, 1]);
+  const leftXRaw = useTransform(scrollYProgress, [0.45, 0.6], [-60, 0]);
+  const rightXRaw = useTransform(scrollYProgress, [0.45, 0.6], [60, 0]);
   const leftX = useSpring(leftXRaw, springConfig);
   const rightX = useSpring(rightXRaw, springConfig);
 
