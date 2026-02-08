@@ -68,6 +68,11 @@ export function ToolMockup() {
   const leftX = useSpring(leftXRaw, springConfig);
   const rightX = useSpring(rightXRaw, springConfig);
 
+  // === PHASE 5: Tagline CTA (58% - 72% scroll) ===
+  const taglineOpacity = useTransform(scrollYProgress, [0.58, 0.68], [0, 1]);
+  const taglineYRaw = useTransform(scrollYProgress, [0.58, 0.72], [30, 0]);
+  const taglineY = useSpring(taglineYRaw, springConfig);
+
   return (
     <div 
       ref={containerRef}
@@ -191,6 +196,19 @@ export function ToolMockup() {
             {[...leftFeatures, ...rightFeatures].map((f, i) => (
               <FeatureBlurb key={f.label} icon={f.icon} label={f.label} desc={f.desc} index={i} compact />
             ))}
+          </motion.div>
+
+          {/* Tagline CTA */}
+          <motion.div
+            className="mt-8 md:mt-10 text-center"
+            style={{ opacity: taglineOpacity, y: taglineY }}
+          >
+            <p className="font-display text-lg sm:text-xl md:text-2xl font-semibold text-foreground tracking-tight">
+              Design anywhere, on any device.
+            </p>
+            <p className="font-sans text-sm md:text-base text-muted-foreground mt-2 max-w-md mx-auto">
+              Your patterns stay perfectly in sync—start on desktop, refine on mobile.
+            </p>
           </motion.div>
         </div>
       </div>
