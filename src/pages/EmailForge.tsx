@@ -3,7 +3,8 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Copy, Check, Monitor, Smartphone, Moon, Sun } from "lucide-react";
+import { Copy, Check, Monitor, Smartphone, Moon, Sun, Camera } from "lucide-react";
+import { toPng } from "html-to-image";
 import { toast } from "sonner";
 import {
   BetaWelcomeEmail,
@@ -61,6 +62,7 @@ export default function EmailForge() {
   const [designBatch, setDesignBatch] = useState<DesignBatch>("cinematic");
   const [copied, setCopied] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
+  const [screenshotting, setScreenshotting] = useState(false);
 
   const handleCopyHTML = async () => {
     if (!previewRef.current) return;
@@ -98,6 +100,27 @@ ${htmlContent}
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       toast.error("Failed to copy HTML");
+    }
+  };
+
+  const handleScreenshot = async () => {
+    if (!previewRef.current || screenshotting) return;
+    setScreenshotting(true);
+    try {
+      const dataUrl = await toPng(previewRef.current, {
+        quality: 1,
+        pixelRatio: 2,
+        cacheBust: true,
+      });
+      const link = document.createElement("a");
+      link.download = `blanketsmith-${selectedTemplate}-${designBatch}-${isDarkMode ? "dark" : "light"}.png`;
+      link.href = dataUrl;
+      link.click();
+      toast.success("Screenshot saved!");
+    } catch (err) {
+      toast.error("Failed to capture screenshot");
+    } finally {
+      setScreenshotting(false);
     }
   };
 
@@ -247,6 +270,15 @@ ${htmlContent}
                   </div>
 
                   <Button
+                    variant="secondary"
+                    onClick={handleScreenshot}
+                    disabled={screenshotting}
+                    className="min-w-[120px]"
+                  >
+                    <Camera className="w-4 h-4" />
+                    {screenshotting ? "Capturing…" : "Screenshot"}
+                  </Button>
+                  <Button
                     variant="gradient"
                     onClick={handleCopyHTML}
                     className="min-w-[140px]"
@@ -311,7 +343,7 @@ ${htmlContent}
                 <div
                   ref={previewRef}
                   className="overflow-auto"
-                  style={{ maxHeight: "70vh" }}
+                  style={{ maxHeight: screenshotting ? "none" : "70vh" }}
                 >
                   {renderTemplate()}
                 </div>
