@@ -106,11 +106,24 @@ ${htmlContent}
   const handleScreenshot = async () => {
     if (!previewRef.current || screenshotting) return;
     setScreenshotting(true);
+
+    const el = previewRef.current;
+    // Remove scroll constraints so full email is exposed
+    const prevMaxHeight = el.style.maxHeight;
+    const prevOverflow = el.style.overflow;
+    el.style.maxHeight = "none";
+    el.style.overflow = "visible";
+
+    // Wait for layout repaint
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
     try {
-      const dataUrl = await toPng(previewRef.current, {
+      const dataUrl = await toPng(el, {
         quality: 1,
         pixelRatio: 2,
         cacheBust: true,
+        height: el.scrollHeight,
+        width: el.scrollWidth,
       });
       const link = document.createElement("a");
       link.download = `blanketsmith-${selectedTemplate}-${designBatch}-${isDarkMode ? "dark" : "light"}.png`;
@@ -120,6 +133,9 @@ ${htmlContent}
     } catch (err) {
       toast.error("Failed to capture screenshot");
     } finally {
+      // Restore constraints
+      el.style.maxHeight = prevMaxHeight;
+      el.style.overflow = prevOverflow;
       setScreenshotting(false);
     }
   };
